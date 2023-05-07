@@ -1,0 +1,88 @@
+{% extends "view/base.html" %}
+{% load static %}
+
+{% block content %}
+<h2 class="header_title text-center">게시글 작성<i class="fas fa-feather-alt" style="margin-left: 10px;"></i></h2>
+<hr class="h-color mx-2">
+<form action="" method="post" id="questionForm" autocomplete="off" data-pages-url="{% url 'ajax_load_pages' %}" data-slide-url="{% url 'ajax_load_slide' %}">
+    {% csrf_token %}
+    <input type="hidden" id="status" name="status" value="POSTED">
+    <div class="row mt-4">
+        <div class="col-12">
+          <label style="font-weight: 600; font-size: large;">제목</label>
+          <input type="title" name="title" value="{{title}}" class="form-control" maxlength="100" placeholder="제목을 입력하세요">
+        </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-12">
+        <label style="font-weight: 600; font-size: large;">내용</label>
+        <textarea type="content" name="content" value="{{content}}" class="form-control" rows="7" maxlength="400" placeholder="질문 내용을 입력하세요"></textarea>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-6">
+        <label style="font-weight: 600; font-size: large;">강의 자료</label>
+        <select id="lecture_name" name="lecture_name" class="custom-select">
+          <option value="">강의 선택</option>
+          {% for key in lectures %}
+          <option value="{{key}}">{{key}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-6">
+        <label style="font-weight: 600; font-size: large;">Page</label>
+        <select id="lecture_slide" name="lecture_slide" class="custom-select"></select>
+      </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12" id="slide_prev">
+      <img id="slide_preview" style="height: 200px; display: none;" src="{% static 'image/question.jpeg' %}"></img>
+    </div>
+  </div>
+  <div class="row mt-4">
+      <div class="col-12">
+        <label style="font-weight: 600; font-size: large;">학생 이름(삭제 예정)</label>
+        <input type="postBy" name="postBy" value="{{postBy}}" class="form-control" maxlength="20" placeholder="데이빗">
+      </div>
+  </div>
+  <div class="row mt-4">
+      <div class="col-12">
+          <button type="submit" class="btn btn-dark btn-lg" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문글 등록</button>
+          <button type="button" class="btn btn-light btn-lg" style="background: #D4DEF1;" onclick="location.href='/question/'">취소</button>
+      </div>
+  </div>
+</form>
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+  $("#lecture_name").change(function() {
+    var url = $("#questionForm").attr("data-pages-url");
+    var lectureName = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {'lecture_id': lectureName},
+      success: function (data) {
+        $("#lecture_slide").html(data);
+        $("#slide_preview").hide();
+      }
+    });
+  });
+
+  $("#lecture_slide").change(function() {
+    var url = $("#questionForm").attr("data-slide-url");
+    var lecture = $("#lecture_name").val();
+    var slide = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {'lecture': lecture, 'slide': slide},
+      success: function (data) {
+        $("#slide_preview").show();
+        let src_text = String(data);
+        $("#slide_preview").attr("src", src_text);
+      }
+    });
+  });
+</script>
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends "view/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="detail_header" style="margin-top: 10px; margin-left: 10px;">
+    <h2>{{question.title}}</h2>
+    <span><i class="fas fa-feather-alt" style="margin-right: 10px;"></i>작성자: {{question.postBy}}</span>
+    <span style="margin-left: 20px;"><i class="far fa-clock" style="margin-right: 10px;"></i>등록일시: {{question.postDate}}</span>
+    <span style="float: right; margin-right: 20px;"><i class="fab fa-stack-overflow" style="margin-right: 10px;"></i>상태: {{question.status}}</span>
+</div>
+<hr class="h-color mx-2">
+<p style="margin-left: 10px; margin-bottom: 40px;">{{question.content}}</p>
+{% if question.lecture_name != "" %}
+<div class="card mb-3" style="max-width: 700px; margin-left: 10px; background-color: lightblue;">
+    <div class="row no-gutters">
+      <div class="col-md-6">
+        <img style="height: 260px; width:auto; margin: 5px" src="{{src_text}}" class="card-img-top" alt="...">
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <h3 class="card-title" style="color:navy">연관 강의자료</h3>
+          <hr>
+          <h4 style="margin-bottom: 10px">{{question.lecture_name}}</h4>
+          <p class="card-text">페이지 : {{question.lecture_slide}} Page</p>
+        </div>
+      </div>
+    </div>
+</div>
+{% endif %}
+<hr class="h-color mx-2"  style="margin-top: 10px;">
+<div style="margin-left: 10px;">
+    <span><i class="fas fa-lightbulb-on" style="color:tan;"></i><span class="px-2">진행 중인 토의</span></span>
+    <span class="bg-warning rounded-pill text-white py-0 px-2">02</span>
+</div>
+<hr class="h-color mx-2">
+{% endblock content %}
+
+{% block right %}
+<div class="move_button" onclick="location.href='/question/form/'">
+  <i class="fas fa-code" style="color: white;"></i><span style="margin-left: 10px;">질문 작성하기</span>
+</div>
+{% endblock right %}

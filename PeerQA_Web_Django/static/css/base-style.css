@@ -1,0 +1,85 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+
+body {
+    background: #D4DEF1;
+    font-family: 'NanumSquare';
+}
+
+#side_nav {
+    background: #F5F5FB;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+#side_right {
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.header_title {
+    color: #5E81F4;
+}
+
+.content {
+    min-height: 100vh;
+    width: 100%
+}
+
+hr.h-color {
+    background: #f5f5f5;
+}
+
+.sidebar li.active {
+    background: #D4DEF1;
+    border-radius: 8px;
+}
+
+.sidebar li.active a, .sidebar li.active a:hover {
+    color: #78d;
+}
+
+.sidebar li a {
+    color: #8DA1B5;
+}
+
+.snu_name {
+    font-size: small; 
+    height: 62px; 
+    padding-top: 14px; 
+    text-align: right;
+    font-weight: 600;
+}
+
+.snu_logo {
+    width: 60px; 
+    height: 62px;
+}
+
+.right_toolbar {
+    background: #F5F5FB;
+    margin-top:30px;
+    min-height: 900px;
+    border-top-left-radius: 30px;
+}
+
+.move_button {
+    border: 2px solid #5E81F4;
+    background-color: #5E81F4;
+    border-radius: 20px;
+    color: #fff;
+    transition: .3s;
+    width: 240px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 30px;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .move_button:hover {
+    box-shadow: 8px 8px #9EA9F9;
+    transition: .3s;
+  }
+  

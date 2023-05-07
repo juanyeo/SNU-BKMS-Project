@@ -1,0 +1,39 @@
+{% extends "view/base.html" %}
+{% load static %}
+
+{% block content %}
+</br>
+<table class="table table-hover" id='board_list2'>
+    <thead>
+        <tr>
+            <th class="text-center d-none d-md-table-cell">제목</th>
+            <th class="text-center d-none d-md-table-cell">내용</th>
+            <th class="text-center d-none d-md-table-cell">작성자</th>
+            <th class="text-center d-none d-md-table-cell">등록일시</th>
+            <th class="text-center d-none d-md-table-cell"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for question in question_list %}
+        <tr onclick="location.href=`{% url 'question_detail' question.id %}`">
+            <td class="text-center d-none d-md-table-cell">{{question.title}}</td>
+            <td class="text-center d-none d-md-table-cell">{{question.content}}</td>
+            <td class="text-center d-none d-md-table-cell" style="width: 80px">{{question.postBy}}</td>
+            <td class="text-center d-none d-md-table-cell">{{question.postDate}}</td>
+            <td class="text-center d-none d-md-table-cell" style="width: 80px">
+                <form action="{% url 'question_delete' question.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
+
+{% block right %}
+<div class="move_button" onclick="location.href='/question/form/'">
+  <i class="fas fa-code" style="color: white;"></i><span style="margin-left: 10px;">질문 작성하기</span>
+</div>
+{% endblock right %}
