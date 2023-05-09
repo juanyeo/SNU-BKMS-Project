@@ -102,6 +102,9 @@ def load_slide(request):
 def signin_page(request):
     return render(request, "view/signin.html", {})
 
+def signup_page(request):
+    return render(request, "view/signup.html", {})
+
 @ensure_csrf_cookie
 def token(request):
     if request.method == 'GET':
