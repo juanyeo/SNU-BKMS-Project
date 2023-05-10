@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 from .forms import QuestionForm
@@ -15,32 +15,6 @@ lecture_dir = {"Lecture 8: Storage (2)": "L08", "Lecture 9: Indexing (1)": "L09"
             , "Lecture 10: Indexing (2)": "L10"}
 
 # Create your views here.
-def signup(request):
-    if request.method == 'POST':
-
-        load = json.loads(request.body.decode())
-        User.objects.create_user(username=load['username'], password=load['password'])
-
-        return HttpResponse(status=201)
-    else:
-        return HttpResponseNotAllowed(['POST'])
-
-
-def signin_button(request):
-    if request.method == 'POST':
-
-        load = json.loads(request.body.decode())
-        user = authenticate(request, username=load['username'], password=load['password'])
-
-        if user:
-            login(request, user=user)
-            return HttpResponse(status=204)
-        return HttpResponse(status=401)
-
-    else:
-        return HttpResponseNotAllowed(['POST'])
-
-
 def signout(request):
     if request.method == 'GET':
 
@@ -99,11 +73,30 @@ def load_slide(request):
     
     return HttpResponse(src)
 
+
 def signin_page(request):
-    return render(request, "view/signin.html", {})
+    if request.method == "GET":
+        return render(request, "view/signin.html")
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user=user)
+            return redirect("/question/")
+        return HttpResponse(status=401)
+
 
 def signup_page(request):
-    return render(request, "view/signup.html", {})
+    if request.method == "GET":
+        return render(request, "view/signup.html")
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        User.objects.create_user(username=username, password=password, first_name=first_name)
+        return redirect("/question/signin/")
 
 @ensure_csrf_cookie
 def token(request):

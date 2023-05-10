@@ -23,20 +23,18 @@
                         <div class="mb-md-5 mt-md-4 pb-5">
 
                             <h2 class="fw-bold mb-2 text-uppercase mb-4">Welcome</h2>
-<!--                            <form action="" method="post" id="user" autocomplete="off" data-pages-url="{% url 'ajax_load_pages' %}" data-slide-url="{% url 'ajax_load_slide' %}">-->
-<!--                                {% csrf_token %}-->
-
+                            <form action="" method="post" id="signin" autocomplete="off" >
+                                {% csrf_token %}
+                                <input type="hidden" id="status" name="status" value="POSTED">
                                 <div class="form-outline form-white mb-4">
-                                    <input type="student_id" id="typeStudentIDX" class="form-control form-control-lg" />
-                                    <label class="form-label" for="typeStudentIDX">학번</label>
+                                    <input type="username" name="username" value="{{username}}" class="form-control" maxlength="100" placeholder="학번을 입력하세요">
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
-                                    <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-                                    <label class="form-label" for="typePasswordX">비밀번호</label>
+                                    <input type="password" name="password" value="{{password}}" class="form-control" maxlength="100" placeholder="비밀번호을 입력하세요">
                                 </div>
-                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Sign In</button>
-<!--                            </form>-->
+                                <button type="submit" class="btn btn-outline-light btn-lg px-5">Sign In</button>
+                            </form>
                         </div>
 
                         <div>
