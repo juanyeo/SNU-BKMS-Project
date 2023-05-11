@@ -4,7 +4,7 @@
 {% block content %}
 <div id="detail_header" style="margin-top: 10px; margin-left: 10px;">
     <h2>{{question.title}}</h2>
-    <span><i class="fas fa-feather-alt" style="margin-right: 10px;"></i>작성자: {{question.postBy}}</span>
+    <span><i class="fas fa-feather-alt" style="margin-right: 10px;"></i>작성자: {{question.user.first_name}}</span>
     <span style="margin-left: 20px;"><i class="far fa-clock" style="margin-right: 10px;"></i>등록일시: {{question.postDate}}</span>
     <span style="float: right; margin-right: 20px;"><i class="fab fa-stack-overflow" style="margin-right: 10px;"></i>상태: {{question.status}}</span>
 </div>

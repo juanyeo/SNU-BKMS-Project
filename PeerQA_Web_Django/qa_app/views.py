@@ -39,7 +39,7 @@ def question_form(request):
     if request.user.is_authenticated:
         if request.method == "GET":
             form = QuestionForm()
-            return render(request, "view/question_form.html", {"form": form, "lectures": lectures})
+            return render(request, "view/question_form.html", {"form": form, "lectures": lectures, "user": request.user})
         elif request.method == "POST":
             form = QuestionForm(request.POST)
             if form.is_valid():
