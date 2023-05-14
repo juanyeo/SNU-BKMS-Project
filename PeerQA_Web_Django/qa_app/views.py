@@ -57,6 +57,8 @@ def question_detail(request, id):
             file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
             src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
             context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments}
+            request.session["qid"] = id
+
             return render(request, "view/question_detail.html", context)
         elif request.method == "POST":
             form = CommentForm(request.POST)
@@ -65,7 +67,8 @@ def question_detail(request, id):
                 post.owner_accepted = 0
                 post.admin_accepted = 0
                 post.save()
-            return HttpResponse(status=201)
+            qid = request.session["qid"]
+            return redirect("question_detail", id=qid)
     else:
         return redirect("/question/signin/")
 
@@ -75,6 +78,24 @@ def question_delete(request, id):
         question.delete()
 
         return redirect("/question/")
+    else:
+        return redirect("/question/signin/")
+
+def comment_admin_like(request, id):
+    if request.user.is_authenticated:
+        Comment.objects.filter(pk=id).update(admin_accepted=1)
+        qid = request.session["qid"]
+        return redirect("question_detail", id=qid)
+    else:
+        return redirect("/question/signin/")
+
+def comment_owner_like(request, id):
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            Comment.objects.filter(pk=id).update(admin_accepted=1)
+        Comment.objects.filter(pk=id).update(owner_accepted=1)
+        qid = request.session["qid"]
+        return redirect("question_detail", id=qid)
     else:
         return redirect("/question/signin/")
 

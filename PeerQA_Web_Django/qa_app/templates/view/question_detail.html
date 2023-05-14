@@ -35,33 +35,54 @@
 <hr class="h-color mx-2">
 
 
-<!--<div class="container">-->
-<!--<div class="be-comment-block">-->
-<!--{% for comment in comment_list %}-->
-<!--<div class="be-comment">-->
-<!--    <div class="be-img-comment">-->
-<!--        <a href="blog-detail-2.html">-->
-<!--            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="be-ava-comment">-->
-<!--        </a>-->
-<!--    </div>-->
-<!--    <div class="be-comment-content">-->
 
-<!--				<span class="be-comment-name">-->
-<!--					<a href="blog-detail-2.html">{{comment.user.first_name}}</a>-->
-<!--					</span>-->
-<!--        <span class="be-comment-time">-->
-<!--					<i class="fa fa-clock-o"></i>-->
-<!--					{{comment.postDate}}-->
-<!--				</span>-->
+<div class="container py-5 text-dark">
+    {% for comment in comment_list %}
+    <div class="d-flex flex-start mb-4">
+        <img class="rounded-circle shadow-1-strong me-3"
+             src="/static/image/question.jpeg" alt="avatar" width="65"
+             height="65" />
+        <div class="card w-100">
+            <div class="card-body p-4">
+                <div class="">
+                    <h5>{{comment.user.first_name}}</h5>
+                    <p class="small">{{comment.postDate}}</p>
+                    <p>
+                        {{comment.content}}
+                    </p>
 
-<!--        <p class="be-comment-text">-->
-<!--            {{question.content}}-->
-<!--        </p>-->
-<!--    </div>-->
-<!--</div>-->
-<!--{% endfor %}-->
-<!--</div>-->
-<!--</div>-->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            {% if comment.owner_accepted == 1 %}
+                            <a href="#!" class="link-muted me-2" style='font-size:14px; color: dodgerblue'>
+                                <i class="fas fa-check me-1" style='font-size:24px; color: dodgerblue'></i>
+                                질문자 채택</a>
+                            {% endif %}
+                            {% if comment.admin_accepted == 1 %}
+                            <a class="link-muted" style='font-size:14px; color: darkblue'>
+                                <i class="fas fa-check me-1" style='font-size:24px; color:darkblue'></i>교수자 채택</a>
+                            {% endif %}
+                        </div>
+                        {% if user.id == question.user.id and comment.owner_accepted == 0 %}
+                        <form action="{% url 'comment_owner_like' comment.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>
+                        </form>
+                        </form>
+
+                        {% elif user.is_staff and comment.admin_accepted == 0 %}
+                        <form action="{% url 'comment_admin_like' comment.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 <form action="" method="post" id="commentForm" autocomplete="off">
     {% csrf_token %}
