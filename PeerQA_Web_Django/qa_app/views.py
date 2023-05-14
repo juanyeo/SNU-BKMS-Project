@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
-from .forms import QuestionForm
+from .forms import QuestionForm, CommentForm
 from .models import Question, Comment
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
@@ -50,13 +50,22 @@ def question_form(request):
 
 def question_detail(request, id):
     if request.user.is_authenticated:
-        question = Question.objects.get(pk=id)
+        if request.method == "GET":
+            question = Question.objects.get(pk=id)
+            comments = Comment.objects.filter(question__exact=id)
 
-        file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
-        src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
-
-        context = {"question": question, "src_text": src_text}
-        return render(request, "view/question_detail.html", context)
+            file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
+            src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
+            context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments}
+            return render(request, "view/question_detail.html", context)
+        elif request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.owner_accepted = 0
+                post.admin_accepted = 0
+                post.save()
+            return HttpResponse(status=201)
     else:
         return redirect("/question/signin/")
 

@@ -33,6 +33,49 @@
     <span class="bg-warning rounded-pill text-white py-0 px-2">02</span>
 </div>
 <hr class="h-color mx-2">
+
+
+<!--<div class="container">-->
+<!--<div class="be-comment-block">-->
+<!--{% for comment in comment_list %}-->
+<!--<div class="be-comment">-->
+<!--    <div class="be-img-comment">-->
+<!--        <a href="blog-detail-2.html">-->
+<!--            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="be-ava-comment">-->
+<!--        </a>-->
+<!--    </div>-->
+<!--    <div class="be-comment-content">-->
+
+<!--				<span class="be-comment-name">-->
+<!--					<a href="blog-detail-2.html">{{comment.user.first_name}}</a>-->
+<!--					</span>-->
+<!--        <span class="be-comment-time">-->
+<!--					<i class="fa fa-clock-o"></i>-->
+<!--					{{comment.postDate}}-->
+<!--				</span>-->
+
+<!--        <p class="be-comment-text">-->
+<!--            {{question.content}}-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->
+<!--{% endfor %}-->
+<!--</div>-->
+<!--</div>-->
+
+<form action="" method="post" id="commentForm" autocomplete="off">
+    {% csrf_token %}
+    <input type="hidden" id="question" name="question" value={{question.id}}>
+    <input type="hidden" id="user" name="user" value="{{user.id}}">
+    <div style="margin-left: 10px;">
+        <textarea type="content" name="content" value="{{content}}" class="form-control" rows="4" maxlength="400" placeholder="답글을 입력하세요"></textarea>
+        <div class="row mt-4">
+            <div class="col-12">
+                <button type="submit" class="btn btn-dark btn-lg" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">답글 등록</button>
+            </div>
+        </div>
+    </div>
+</form>
 {% endblock content %}
 
 {% block right %}
