@@ -10,6 +10,7 @@ class User(AbstractUser):
     owner_accepted = models.IntegerField(default=0)
     admin_accepted = models.IntegerField(default=0)
     question_num = models.IntegerField(default=0)
+    comment_num = models.IntegerField(default=0)
 
 
 class Question(models.Model):

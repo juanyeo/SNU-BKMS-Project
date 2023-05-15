@@ -65,6 +65,9 @@ def question_detail(request, id):
             return render(request, "view/question_detail.html", context)
         elif request.method == "POST":
             form = CommentForm(request.POST)
+            cn = request.user.comment_num
+            cn += 1
+            User.objects.filter(pk=request.user.id).update(comment_num=cn)
             if form.is_valid():
                 post = form.save(commit=False)
                 post.owner_accepted = 0
@@ -156,8 +159,7 @@ def signup_page(request):
         username = request.POST['username']
         password = request.POST['password']
         first_name = request.POST['first_name']
-        User.objects.create_user(username=username, password=password, first_name=first_name,
-                                    owner_accepted=0, admin_accepted=0, question_num=0)
+        User.objects.create_user(username=username, password=password, first_name=first_name)
         return redirect("/question/signin/")
 
 @ensure_csrf_cookie
