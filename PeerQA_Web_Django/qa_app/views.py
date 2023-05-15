@@ -7,12 +7,12 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
-from django.contrib.auth.models import User
+from .models import User
 
 lectures = {"Lecture 8: Storage (2)": 21, "Lecture 9: Indexing (1)": 40
-            , "Lecture 10: Indexing (2)": 36}
+    , "Lecture 10: Indexing (2)": 36}
 lecture_dir = {"Lecture 8: Storage (2)": "L08", "Lecture 9: Indexing (1)": "L09"
-            , "Lecture 10: Indexing (2)": "L10"}
+    , "Lecture 10: Indexing (2)": "L10"}
 
 # Create your views here.
 def signout(request):
@@ -42,6 +42,9 @@ def question_form(request):
             return render(request, "view/question_form.html", {"form": form, "lectures": lectures, "user": request.user})
         elif request.method == "POST":
             form = QuestionForm(request.POST)
+            qn = request.user.question_num
+            qn += 1
+            User.objects.filter(pk=request.user.id).update(question_num=qn)
             if form.is_valid():
                 form.save()
             return redirect("/question/")
@@ -84,6 +87,10 @@ def question_delete(request, id):
 def comment_admin_like(request, id):
     if request.user.is_authenticated:
         Comment.objects.filter(pk=id).update(admin_accepted=1)
+        u = Comment.objects.get(pk=id).user
+        aa = u.admin_accepted
+        aa += 1
+        User.objects.filter(id=u.id).update(admin_accepted=aa)
         qid = request.session["qid"]
         return redirect("question_detail", id=qid)
     else:
@@ -91,10 +98,19 @@ def comment_admin_like(request, id):
 
 def comment_owner_like(request, id):
     if request.user.is_authenticated:
-        if request.user.is_staff:
-            Comment.objects.filter(pk=id).update(admin_accepted=1)
-        Comment.objects.filter(pk=id).update(owner_accepted=1)
+        c = Comment.objects.filter(pk=id)
+        c.update(owner_accepted=1)
+        u = Comment.objects.get(pk=id).user
+        ua = u.owner_accepted
+        ua += 1
+        User.objects.filter(id=u.id).update(owner_accepted=ua)
+
         qid = request.session["qid"]
+        if request.user.is_staff:
+            c.update(admin_accepted=1)
+            aa = u.admin_accepted
+            aa += 1
+            User.objects.filter(id=u.id).update(admin_accepted=aa)
         return redirect("question_detail", id=qid)
     else:
         return redirect("/question/signin/")
@@ -115,7 +131,7 @@ def load_slide(request):
 
     file_name = "/Page" + slide + ".jpeg"
     src = static("lecture/" + lecture_dir[lecture] + file_name)
-    
+
     return HttpResponse(src)
 
 
@@ -140,7 +156,8 @@ def signup_page(request):
         username = request.POST['username']
         password = request.POST['password']
         first_name = request.POST['first_name']
-        User.objects.create_user(username=username, password=password, first_name=first_name)
+        User.objects.create_user(username=username, password=password, first_name=first_name,
+                                    owner_accepted=0, admin_accepted=0, question_num=0)
         return redirect("/question/signin/")
 
 @ensure_csrf_cookie
