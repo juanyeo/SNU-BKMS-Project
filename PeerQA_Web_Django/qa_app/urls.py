@@ -14,4 +14,5 @@ urlpatterns = [
     path("signout/", views.signout, name='signout'),
     path('ajax/load_pages/', views.load_pages, name='ajax_load_pages'),
     path('ajax/load_slide/', views.load_slide, name='ajax_load_slide'),
+    path("mypage/", views.mypage, name="mypage"),
 ]

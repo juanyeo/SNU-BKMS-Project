@@ -55,7 +55,7 @@ def question_detail(request, id):
     if request.user.is_authenticated:
         if request.method == "GET":
             question = Question.objects.get(pk=id)
-            comments = Comment.objects.filter(question__exact=id)
+            comments = Comment.objects.filter(question=id)
 
             file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
             src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
@@ -160,6 +160,15 @@ def signup_page(request):
         password = request.POST['password']
         first_name = request.POST['first_name']
         User.objects.create_user(username=username, password=password, first_name=first_name)
+        return redirect("/question/signin/")
+
+
+def mypage(request):
+    if request.user.is_authenticated:
+        my_questions = Question.objects.filter(user=request.user.id)
+        accepted = request.user.admin_accepted + request.user.owner_accepted
+        return render(request, "view/mypage.html", {"my_questions": my_questions, "user": request.user, "accepted": accepted})
+    else:
         return redirect("/question/signin/")
 
 @ensure_csrf_cookie
