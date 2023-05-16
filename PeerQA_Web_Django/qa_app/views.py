@@ -147,7 +147,7 @@ def signin_page(request):
         if user:
             login(request, user=user)
             return redirect("/question/")
-        return redirect("/question/signin/")
+        return HttpResponse(status=401)
 
 
 def signup_page(request):
