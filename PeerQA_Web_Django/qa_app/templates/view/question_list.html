@@ -23,7 +23,9 @@
             <td class="text-center d-none d-md-table-cell" style="width: 80px">
                 <form action="{% url 'question_delete' question.id %}" method="post">
                     {% csrf_token %}
+                    {% if question.user == user %}
                     <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                    {% endif %}
                 </form>
             </td>
         </tr>

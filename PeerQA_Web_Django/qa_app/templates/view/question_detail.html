@@ -30,8 +30,14 @@
 <hr class="h-color mx-2"  style="margin-top: 10px;">
 <div style="margin-left: 10px;">
     <span><i class="fas fa-lightbulb-on" style="color:tan;"></i><span class="px-2">진행 중인 토의</span></span>
-    <span class="bg-warning rounded-pill text-white py-0 px-2">02</span>
+    <span class="bg-warning rounded-pill text-white py-0 px-2">{{count}}</span>
 </div>
+
+
+<form action="{% url 'scrap' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">스크택</button>
+</form>
 <hr class="h-color mx-2">
 
 

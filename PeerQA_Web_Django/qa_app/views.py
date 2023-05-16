@@ -1,8 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
-from .forms import QuestionForm, CommentForm
-from .models import Question, Comment
+from .forms import QuestionForm, CommentForm, ScrapForm
+from .models import Question, Comment, Scrap
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.contrib.auth import login, authenticate, logout
@@ -27,7 +27,8 @@ def signout(request):
 
 def question_list(request):
     if request.user.is_authenticated:
-        context = {"question_list": Question.objects.all()}
+        context = {"question_list": Question.objects.all(), "user": request.user}
+
         return render(request, "view/question_list.html", context)
     else:
         return redirect("/question/signin/")
@@ -54,10 +55,10 @@ def question_detail(request, id):
         if request.method == "GET":
             question = Question.objects.get(pk=id)
             comments = Comment.objects.filter(question=id)
-
+            count = comments.count()
             file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
             src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
-            context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments}
+            context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments, "count": count}
             request.session["qid"] = id
 
             return render(request, "view/question_detail.html", context)
@@ -161,11 +162,32 @@ def signup_page(request):
         return redirect("/question/signin/")
 
 
+def scrap(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            qid = request.session["qid"]
+            q = Question.objects.get(pk=qid)
+            form = ScrapForm(request.POST)
+            s = Scrap.objects.filter(user=request.user, question=q)
+            if s:
+                return redirect("question_detail", id=qid)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user = request.user
+                post.question = q
+                post.save()
+            return redirect("question_detail", id=qid)
+    else:
+        return redirect("/question/signin/")
+
+
 def mypage(request):
     if request.user.is_authenticated:
-        my_questions = Question.objects.filter(user=request.user.id)
+        my_questions = Question.objects.filter(user=request.user)
         accepted = request.user.admin_accepted + request.user.owner_accepted
-        return render(request, "view/mypage.html", {"my_questions": my_questions, "user": request.user, "accepted": accepted})
+        scraps = Scrap.objects.filter(user=request.user)
+        scraps = [scraps.question for scraps in scraps]
+        return render(request, "view/mypage.html", {"my_questions": my_questions, "user": request.user, "accepted": accepted, "scraps": scraps})
     else:
         return redirect("/question/signin/")
 

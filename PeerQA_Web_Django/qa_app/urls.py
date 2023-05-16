@@ -15,5 +15,6 @@ urlpatterns = [
     path('ajax/load_pages/', views.load_pages, name='ajax_load_pages'),
     path('ajax/load_slide/', views.load_slide, name='ajax_load_slide'),
     path("mypage/", views.mypage, name="mypage"),
-    path("signout/", views.signout, name="signout")
+    path("signout/", views.signout, name="signout"),
+    path("scrap/", views.scrap, name="scrap"),
 ]

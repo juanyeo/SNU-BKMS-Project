@@ -11,6 +11,7 @@ class User(AbstractUser):
     admin_accepted = models.IntegerField(default=0)
     question_num = models.IntegerField(default=0)
     comment_num = models.IntegerField(default=0)
+    scrap_num = models.IntegerField(default=0)
 
 
 class Question(models.Model):
@@ -30,6 +31,11 @@ class Comment(models.Model):
     owner_accepted = models.IntegerField()
     admin_accepted = models.IntegerField()
     postDate = models.DateTimeField(auto_now=True)
+
+
+class Scrap(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
 
 
