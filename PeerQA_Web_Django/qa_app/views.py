@@ -20,9 +20,7 @@ def signout(request):
 
         if request.user.is_authenticated:
             logout(request)
-            return redirect("/question/signin/")
-        else:
-            return HttpResponse(status=401)
+        return redirect("/question/signin/")
 
     else:
         return HttpResponseNotAllowed(['GET'])
@@ -149,7 +147,7 @@ def signin_page(request):
         if user:
             login(request, user=user)
             return redirect("/question/")
-        return HttpResponse(status=401)
+        return redirect("/question/signin/")
 
 
 def signup_page(request):
