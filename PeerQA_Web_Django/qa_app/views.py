@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 from .forms import QuestionForm, CommentForm, ScrapForm
-from .models import Question, Comment, Scrap
+from .models import Question, Comment, Scrap, Tag
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.contrib.auth import login, authenticate, logout
@@ -38,13 +38,16 @@ def question_form(request):
     if request.user.is_authenticated:
         if request.method == "GET":
             form = QuestionForm()
-            return render(request, "view/question_form.html", {"form": form, "lectures": lectures, "user": request.user})
+            tags = Tag.objects.all()
+            return render(request, "view/question_form.html", {"form": form,
+                                                               "lectures": lectures, "user": request.user, "tags": tags})
         elif request.method == "POST":
             form = QuestionForm(request.POST)
-            qn = request.user.question_num
-            qn += 1
-            User.objects.filter(pk=request.user.id).update(question_num=qn)
+
             if form.is_valid():
+                qn = request.user.question_num
+                qn += 1
+                User.objects.filter(pk=request.user.id).update(question_num=qn)
                 form.save()
             return redirect("/question/")
     else:
@@ -64,11 +67,12 @@ def question_detail(request, id):
             return render(request, "view/question_detail.html", context)
         elif request.method == "POST":
             form = CommentForm(request.POST)
-            cn = request.user.comment_num
-            cn += 1
-            User.objects.filter(pk=request.user.id).update(comment_num=cn)
+
             if form.is_valid():
                 post = form.save(commit=False)
+                cn = request.user.comment_num
+                cn += 1
+                User.objects.filter(pk=request.user.id).update(comment_num=cn)
                 post.owner_accepted = 0
                 post.admin_accepted = 0
                 post.save()
