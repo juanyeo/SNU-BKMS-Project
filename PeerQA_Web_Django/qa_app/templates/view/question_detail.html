@@ -2,26 +2,30 @@
 {% load static %}
 
 {% block content %}
+
 <div id="detail_header" style="margin-top: 10px; margin-left: 10px;">
-    <h2>{{question.title}}</h2>
-    <span><i class="fas fa-feather-alt" style="margin-right: 10px;"></i>작성자: {{question.user.first_name}}</span>
-    <span style="margin-left: 20px;"><i class="far fa-clock" style="margin-right: 10px;"></i>등록일시: {{question.postDate}}</span>
-    <span style="float: right; margin-right: 20px;"><i class="fab fa-stack-overflow" style="margin-right: 10px;"></i>상태: {{question.status}}</span>
+    <p style = "font-size: 27px; font-weight: 500; margin-bottom: 6px">{{question.title}}</p> <!--원래 h2 -> p로해서 사이즈 customizing-->
+    <span style = "font-size: 13px"><i class="fas fa-feather-alt" style="margin-right: 5px;"></i>작성자: {{question.user.first_name}}</span>
+    <span style= "margin-left: 20px; font-size: 13px"><i class="far fa-clock" style="margin-right: 5pt;"></i>등록일시: {{question.postDate|date:"Y/m/d H:i"}}</span>
+    <span style= "margin-left: 20px; font-size: 13px"><i class="fab fa-stack-overflow" style="margin-right: 5px;"></i>상태: {{question.status}}</span>
 </div>
-<hr class="h-color mx-2">
-<p style="margin-left: 10px; margin-bottom: 40px;">{{question.content}}</p>
+<hr class="h-color mx-2" style="margin-top: 8px; margin-bottom: 15px;">
+<p style="font-size: 15px; margin-left: 10px; margin-bottom: 40px;">{{question.content}}</p>
 {% if question.lecture_name != "" %}
 <div class="card mb-3" style="max-width: 700px; margin-left: 10px; background-color: lightblue;">
     <div class="row no-gutters">
       <div class="col-md-6">
-        <img style="height: 260px; width:auto; margin: 5px" src="{{src_text}}" class="card-img-top" alt="...">
+        <!-- 밑 style에 height: 260px를 auto로 바꾸고, min-height, max-width=100% 추가-->
+        <img style="height: auto; width:auto; min-height: 150px; max-width: 100%; margin: 5px" src="{{src_text}}" class="card-img-top" alt="...">
       </div>
       <div class="col-md-6">
         <div class="card-body">
-          <h3 class="card-title" style="color:navy">연관 강의자료</h3>
+            <!-- 밑 style에 font-size 속성 추가 -->
+          <h3 class="card-title" style="color:navy; font-size: clamp(18px, 2vw, 25px)">연관 강의자료</h3>
           <hr>
-          <h4 style="margin-bottom: 10px">{{question.lecture_name}}</h4>
-          <p class="card-text">페이지 : {{question.lecture_slide}} Page</p>
+            <!-- font-size: 1.5vw 추가            -->
+          <h4 style="margin-bottom: 10px; font-size: clamp(13.5px, 1.5vw, 17px">{{question.lecture_name}}</h4>
+          <p class="card-text" style = "font-size: clamp(9px, 1vw, 12px)">페이지 : {{question.lecture_slide}} Page</p>
         </div>
       </div>
     </div>
@@ -41,29 +45,38 @@
 <hr class="h-color mx-2">
 
 
-
 <div class="container py-5 text-dark">
     {% for comment in comment_list %}
     <div class="d-flex flex-start mb-4">
-        <img class="rounded-circle shadow-1-strong me-3"
-             src="/static/image/question.jpeg" alt="avatar" width="65"
-             height="65" />
+        <div style="display: flex; flex-direction: column; align-items: center;"> <!-- flex-start; margin-right: 10px;">-->
+            <img class="rounded-circle shadow-1-strong me-3"
+                 src="/static/image/question.jpeg" alt="avatar" width="65"
+                 height="65" />
+            {% if comment.owner_accepted == 1 %}
+            <div style="padding-top: 20px;">
+                <a href="#!" class="link-muted me-2" style='font-size:14px; color: dodgerblue'>
+                    <i class="fas fa-check me-1" style='font-size:24px; color: dodgerblue'></i>
+                </a>
+            </div>
+            {% endif %}
+        </div>
         <div class="card w-100">
             <div class="card-body p-4">
-                <div class="">
-                    <h5>{{comment.user.first_name}}</h5>
-                    <p class="small">{{comment.postDate}}</p>
-                    <p>
+                <div class="" style="word-wrap: break-word;">
+                    <p>{{comment.user.first_name}}</p>
+                    <p class="small">{{comment.postDate|date:"Y/m/d H:i"}}</p>
+<!--                    {{question.postDate|date:"Y/m/d H:i"}}-->
+                    <p style = "font-size: 15px">
                         {{comment.content}}
                     </p>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
-                            {% if comment.owner_accepted == 1 %}
-                            <a href="#!" class="link-muted me-2" style='font-size:14px; color: dodgerblue'>
-                                <i class="fas fa-check me-1" style='font-size:24px; color: dodgerblue'></i>
-                                질문자 채택</a>
-                            {% endif %}
+<!--                            {% if comment.owner_accepted == 1 %}-->
+<!--                            <a href="#!" class="link-muted me-2" style='font-size:14px; color: dodgerblue'>-->
+<!--                                <i class="fas fa-check me-1" style='font-size:24px; color: dodgerblue'></i>-->
+<!--                                질문자 채택</a>-->
+<!--                            {% endif %}-->
                             {% if comment.admin_accepted == 1 %}
                             <a class="link-muted" style='font-size:14px; color: darkblue'>
                                 <i class="fas fa-check me-1" style='font-size:24px; color:darkblue'></i>교수자 채택</a>
@@ -98,11 +111,12 @@
         <textarea type="content" name="content" value="{{content}}" class="form-control" rows="4" maxlength="400" placeholder="답글을 입력하세요"></textarea>
         <div class="row mt-4">
             <div class="col-12">
-                <button type="submit" class="btn btn-dark btn-lg" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">답글 등록</button>
+                <button type="submit" class="btn btn-dark btn-lg" style="글margin-right: 20px; background: #5E81F4; border: #5E81F4;">답글 등록</button>
             </div>
         </div>
     </div>
 </form>
+
 {% endblock content %}
 
 {% block right %}
