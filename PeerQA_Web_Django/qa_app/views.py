@@ -8,6 +8,7 @@ import json
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from .models import User
+from django.db.models import OuterRef, Subquery, Count
 
 lectures = {"Lecture 8: Storage (2)": 21, "Lecture 9: Indexing (1)": 40
     , "Lecture 10: Indexing (2)": 36}
@@ -27,7 +28,18 @@ def signout(request):
 
 def question_list(request):
     if request.user.is_authenticated:
-        context = {"question_list": Question.objects.all(), "user": request.user}
+        questions = Question.objects.annotate(
+            count=Subquery(
+                Comment.objects.filter(question=OuterRef('id'))
+                    .values('question')
+                    .annotate(count=Count('id'))
+                    .values('count')
+            )
+        )
+        for i in range(len(questions)):
+            if questions[i].count == None: questions[i].count = 0
+            questions[i].count = "{:02d}".format(questions[i].count)
+        context = {"question_list": questions, "user": request.user}
 
         return render(request, "view/question_list.html", context)
     else:
