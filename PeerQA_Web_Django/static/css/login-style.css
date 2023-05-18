@@ -1,0 +1,25 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+
+body {
+    font-family: 'NanumSquare';
+}
+
+.welcome_title {
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    color: #5E81F4;
+}
+
+.snu_name {
+    font-size: small; 
+    height: 62px; 
+    padding-top: 14px; 
+    text-align: right;
+    font-weight: 600;
+}
+
+.snu_logo {
+    width: 60px; 
+    height: 62px;
+}
