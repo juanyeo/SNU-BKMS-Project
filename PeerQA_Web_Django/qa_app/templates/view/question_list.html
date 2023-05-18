@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block center_top %}
-<div style="margin-bottom: 70px">
+<div style="margin-bottom: 62px">
     <div style="position:relative; display: flex;">
         <input type="text" placeholder="검색어 입력" style="width: 92%; height: 48px; padding-left: 30px; border:none; border-radius: 18px 0 0 18px;">
         <button type="submit" style="width:8%; height:48px; text-align:center; border:none; border-left:1px solid gainsboro; border-radius:0 18px 18px 0; background: white;">
@@ -14,8 +14,6 @@
 
 {% block content %}
 {% for question in question_list %}
-</br>
-<hr style="background-color: gainsboro;">
 <div class="px-3" onclick="location.href=`{% url 'question_detail' question.id %}`">
     <div class="row">
         <div style="float: left; width: 90%;">
@@ -46,6 +44,9 @@
         {% endif %}
     </form> -->
 </div>
+</br>
+<hr style="background-color: gainsboro;">
+
 {% endfor %}
 {% endblock content %}
 

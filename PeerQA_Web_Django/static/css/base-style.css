@@ -77,9 +77,19 @@ hr.h-color {
     margin-left: 30px;
     cursor: pointer;
     display: inline-block;
-  }
-  .move_button:hover {
+}
+.move_button:hover {
     box-shadow: 8px 8px #9EA9F9;
     transition: .3s;
-  }
+}
+
+.fa-gradient {
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffb000), to(#FFD270));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.scroll-bar-no::-webkit-scrollbar{
+    display:none;
+}
 
