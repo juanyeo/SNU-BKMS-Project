@@ -1,7 +1,7 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/signin-style.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/login-style.css' %}"/>
 <link rel="stylesheet" type="text/css" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
 
 <!DOCTYPE html>
@@ -11,42 +11,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{% static 'image/database.ico' %}"/>
-    <title>Sign In</title>
+    <title>Peer Q&A</title>
 </head>
-<section class="vh-100 gradient-custom">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card text-white signin" style="border-radius: 1rem;" >
-                    <div class="card-body p-5 text-center">
-
-                        <div class="mb-md-5 mt-md-4 pb-5">
-
-                            <h2 class="fw-bold mb-2 text-uppercase mb-4">Welcome</h2>
-                            <form action="" method="post" id="signin" autocomplete="off" >
-                                {% csrf_token %}
-                                <input type="hidden" id="status" name="status" value="POSTED">
-                                <div class="form-outline form-white mb-4">
-                                    <input type="username" name="username" value="{{username}}" class="form-control" maxlength="100" placeholder="학번을 입력하세요">
-                                </div>
-
-                                <div class="form-outline form-white mb-4">
-                                    <input type="password" name="password" value="{{password}}" class="form-control" maxlength="100" placeholder="비밀번호을 입력하세요">
-                                </div>
-                                <button type="submit" class="btn btn-outline-light btn-lg px-5">Sign In</button>
-                            </form>
-                        </div>
-
-                        <div>
-                            <p class="mb-0">Don't have an account?
-                                <a class="text-white-50 fw-bold" onclick="location.href='/question/signup/'">Sign Up</a>
-                            </p>
-                        </div>
-
-                    </div>
+<body>
+    <div class="row px-2" style="position: absolute; top: 0px; right: 0px; margin-top:30px; width: 350px;">
+        <p class="col-auto snu_name">Seoul National University<br>Graduate School of Data Science</p>
+        <img class="snu_logo" src="{% static 'image/snu_logo.png' %}"></img>
+    </div>
+    <div style="margin-top: 120px;">
+        <h2 class="welcome_title">Welcome to SNU GSDS Peer Q&A Board</h2>
+        <div style="width: 400px; margin: auto; margin-top: 50px;">
+            <form action="" method="post" id="signin" autocomplete="off" >
+                {% csrf_token %}
+                <input type="hidden" id="status" name="status" value="POSTED">
+                <div class="form-outline form-black mb-4">
+                    <input type="username" name="username" value="{{username}}" class="form-control" style="height: 48px;" maxlength="100" placeholder="학번을 입력하세요">
                 </div>
-            </div>
+
+                <div class="form-outline form-black mb-4">
+                    <input type="password" name="password" value="{{password}}" class="form-control" style="height: 48px;" maxlength="100" placeholder="비밀번호을 입력하세요">
+                </div>
+                <button type="submit" class="btn btn-outline-info btn-lg px-5" style="width: 100%;">Sign In</button>
+            </form>
+            <p class="mb-0" style="text-align: center;">Don't have an account?
+                <a class="fw-bold" style="color:dodgerblue; font-weight: 600;" onclick="location.href='/question/signup/'">Sign Up</a>
+            </p>
         </div>
     </div>
-</section>
+    <img src="{% static 'image/gsds.png' %}" style="display: block; margin: auto; margin-top: 50px; width: 80%; text-align: center;"></img>
+</body>
 </html>
