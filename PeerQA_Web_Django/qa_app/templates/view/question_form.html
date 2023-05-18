@@ -34,7 +34,18 @@
         <label style="font-weight: 600; font-size: large;">Page</label>
         <select id="lecture_slide" name="lecture_slide" class="custom-select"></select>
       </div>
+
   </div>
+
+    <div class="col-6 mt -4">
+        <select id="tag" name="tag" class="custom-select">
+            <option value="">테그 선택</option>
+            {% for tag in tags %}
+            <option value="{{tag}}">{{tag}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
   <div class="row mt-4">
     <div class="col-12" id="slide_prev">
       <img id="slide_preview" style="height: 200px; display: none;" src="{% static 'image/question.jpeg' %}"></img>

@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 from .forms import QuestionForm, CommentForm, ScrapForm
-from .models import Question, Comment, Scrap, Tag
+from .models import Question, Comment, Scrap
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.contrib.auth import login, authenticate, logout
@@ -14,6 +14,7 @@ lectures = {"Lecture 8: Storage (2)": 21, "Lecture 9: Indexing (1)": 40
     , "Lecture 10: Indexing (2)": 36}
 lecture_dir = {"Lecture 8: Storage (2)": "L08", "Lecture 9: Indexing (1)": "L09"
     , "Lecture 10: Indexing (2)": "L10"}
+tag = {"B+ Tree": "B+ Tree" , "Hash": "Hash", "Neo4j": "Neo4j", "PostgreSQL": "PostgreSQL"}
 
 # Create your views here.
 def signout(request):
@@ -50,9 +51,8 @@ def question_form(request):
     if request.user.is_authenticated:
         if request.method == "GET":
             form = QuestionForm()
-            tags = Tag.objects.all()
             return render(request, "view/question_form.html", {"form": form,
-                                                               "lectures": lectures, "user": request.user, "tags": tags})
+                                                               "lectures": lectures, "user": request.user, "tags": tag})
         elif request.method == "POST":
             form = QuestionForm(request.POST)
 

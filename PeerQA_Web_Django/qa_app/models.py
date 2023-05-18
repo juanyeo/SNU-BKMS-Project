@@ -5,11 +5,6 @@ from django.contrib.auth.models import AbstractUser
 # pip install psycopg2-binary
 # Create your models here.
 
-
-class Tag(models.Model):
-    name = models.CharField(max_length=100)
-
-
 class User(AbstractUser):
     owner_accepted = models.IntegerField(default=0)
     admin_accepted = models.IntegerField(default=0)
@@ -26,7 +21,7 @@ class Question(models.Model):
     lecture_name = models.CharField(max_length=24)
     lecture_slide = models.IntegerField()
     postDate = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField('Tag')
+    tag = models.CharField(max_length=24)
 
 
 class Comment(models.Model):
