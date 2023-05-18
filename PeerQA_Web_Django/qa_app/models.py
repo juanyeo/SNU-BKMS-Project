@@ -15,8 +15,8 @@ class User(AbstractUser):
 
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    content = models.CharField(max_length=400)
+    title = models.CharField(max_length=200)
+    content = models.CharField(max_length=2000)
     status = models.CharField(max_length=12)
     lecture_name = models.CharField(max_length=24)
     lecture_slide = models.IntegerField()
@@ -27,7 +27,7 @@ class Question(models.Model):
 class Comment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.CharField(max_length=400)
+    content = models.CharField(max_length=2000)
     owner_accepted = models.IntegerField()
     admin_accepted = models.IntegerField()
     postDate = models.DateTimeField(auto_now=True)

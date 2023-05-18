@@ -22,22 +22,22 @@
 
                         <div class="mb-md-5 mt-md-4 pb-5">
 
-                            <h2 class="fw-bold mb-2 text-uppercase mb-4">Sign Up</h2>
+                            <h2 class="fw-bold mb-2 text-uppercase mb-4" style="color: orange;">Sign Up</h2>
                             <form action="" method="post" id="signup" autocomplete="off" >
                                 {% csrf_token %}
                                 <input type="hidden" id="status" name="status" value="POSTED">
-                                <div class="orm-outline form-white mb-4">
-                                    <input type="first_name" name="first_name" value="{{first_name}}" class="form-control" maxlength="100" placeholder="닉네임을 입력하세요">
+                                <div class="orm-outline form-black mb-4">
+                                    <input type="first_name" name="first_name" value="{{first_name}}" class="form-control" maxlength="100" placeholder="이름을 입력하세요">
                                 </div>
 
-                                <div class="form-outline form-white mb-4">
+                                <div class="form-outline form-black mb-4">
                                     <input type="username" name="username" value="{{username}}" class="form-control" maxlength="100" placeholder="학번을 입력하세요">
                                 </div>
 
-                                <div class="form-outline form-white mb-4">
+                                <div class="form-outline form-black mb-4">
                                     <input type="password" name="password" value="{{password}}" class="form-control" maxlength="100" placeholder="비밀번호를 입력하세요">
                                 </div>
-                                <button type="submit" class="btn btn-outline-light btn-lg px-5">Submit</button>
+                                <button type="submit" class="btn btn-outline-warning btn-lg px-5" style="width: 100%;">Submit</button>
                             </form>
                         </div>
                     </div>
