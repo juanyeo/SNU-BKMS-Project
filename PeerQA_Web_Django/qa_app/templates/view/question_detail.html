@@ -12,46 +12,50 @@
 <hr class="h-color mx-2" style="margin-top: 8px; margin-bottom: 15px;">
 <p style="font-size: 15px; margin-left: 10px; margin-bottom: 40px;">{{question.content}}</p>
 {% if question.lecture_name != "" %}
-<div class="card mb-3" style="max-width: 700px; margin-left: 10px; background-color: lightblue;">
-    <div class="row no-gutters">
-      <div class="col-md-6">
-        <!-- 밑 style에 height: 260px를 auto로 바꾸고, min-height, max-width=100% 추가-->
-        <img style="height: auto; width:auto; min-height: 150px; max-width: 100%; margin: 5px" src="{{src_text}}" class="card-img-top" alt="...">
-      </div>
-      <div class="col-md-6">
-        <div class="card-body">
-            <!-- 밑 style에 font-size 속성 추가 -->
-          <h3 class="card-title" style="color:navy; font-size: clamp(18px, 2vw, 25px)">연관 강의자료</h3>
-          <hr>
-            <!-- font-size: 1.5vw 추가            -->
-          <h4 style="margin-bottom: 10px; font-size: clamp(13.5px, 1.5vw, 17px)">{{question.lecture_name}}</h4>
-          <p class="card-text" style = "font-size: clamp(9px, 1vw, 12px)">페이지 : {{question.lecture_slide}} Page</p>
+<div class="card m-3 parent-card" style=" background-color: lightblue;">
+    <div class="row no-gutters" >
+        <div class= "col-12 col-md-6" >
+            <div >
+                <img style="min-height: 100%; padding: 5px" src="{{src_text}}" class="card-img-top" alt="...">
+            </div>
         </div>
-      </div>
+        <div class="col-12 col-md-6">
+            <div class="card-body" style = "margin: 5px; text-align: right; max-width: 100%">
+                <h3 class="card-title" style="color:navy; font-size: 20px; margin-bottom: 5px">연관 강의자료</h3>
+                <hr style = "margin-top: 10px; margin-bottom: 10px;">
+                <h4 style="margin-top: 5px; margin-bottom: 5px; font-size: 14px">{{question.lecture_name}}</h4>
+                <p class="card-text" style = "font-size: 10px; margin-top: 5px ">페이지 : {{question.lecture_slide}} Page</p>
+            </div>
+        </div>
     </div>
 </div>
 {% endif %}
-<hr class="h-color mx-2"  style="margin-top: 10px;">
+<div style = "display: flex; justify-content: right; margin-top: 30px">
+    <form action="{% url 'scrap' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-dark" style="margin-right: 20px;
+        background: #5E81F4; border: #5E81F4; padding: 3px 8px; font-size: 10px; margin-bottom: -25px">스크랩</button>
+    </form>
+</div>
+
+<hr class="h-color mx-2"  style="margin-bottom: 6px;">
 <div style="margin-left: 10px;">
-    <span><i class="fas fa-lightbulb-on" style="color:tan;"></i><span class="px-2">진행 중인 토의</span></span>
-    <span class="bg-warning rounded-pill text-white py-0 px-2">{{count}}</span>
+    <span><i class="fas fa-lightbulb-on" style="color:tan; font-size: 12px"></i><span class="px-2" style = "font-size: 12px">진행 중인 토의</span></span>
+    <span class="bg-warning rounded-pill text-white py-0 px-2" style = "font-size: 12px">{{count}}</span>
 </div>
 
 
-<form action="{% url 'scrap' %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">스크랩</button>
-</form>
-<hr class="h-color mx-2">
+<!--<hr class="h-color mx-1" style = "margin-top: 6px">-->
 
 
-<div class="container py-5 text-dark">
+<div class="container mb-4 py-3 text-dark">
     {% for comment in comment_list %}
-    <div class="d-flex flex-start mb-4">
+    <div class="d-flex flex-start mt-4">
         <div style="display: flex; flex-direction: column; align-items: center;"> <!-- flex-start; margin-right: 10px;">-->
             <img class="rounded-circle shadow-1-strong me-3"
-                 src="/static/image/question.jpeg" alt="avatar" width="65"
-                 height="65" />
+                 src="/static/image/question.jpeg" alt="avatar" width="50"
+                 height="50" />
+
             {% if comment.owner_accepted == 1 %}
             <div style="padding-top: 20px;">
                 <a href="#!" class="link-muted me-2" style='font-size:14px; color: dodgerblue'>
@@ -59,47 +63,72 @@
                 </a>
             </div>
             {% endif %}
+
+            {% if comment.admin_accepted == 1 %}
+            <div style = "padding-top:20px;">
+                <a class="link-muted" style='font-size:14px; color: darkblue'>
+                    <i class="fas fa-check me-1" style='font-size:24px; color:darkblue'></i>
+                </a>
+            </div>
+            {% endif %}
+
         </div>
-        <div class="card w-100">
+        <div class="card w-100" style = "border-radius: 25px">
             <div class="card-body p-4">
-                <div class="" style="word-wrap: break-word;">
-                    <p>{{comment.user.first_name}}</p>
-                    <p class="small">{{comment.postDate|date:"Y/m/d H:i"}}</p>
-<!--                    {{question.postDate|date:"Y/m/d H:i"}}-->
-                    <p style = "font-size: 15px">
-                        {{comment.content}}
-                    </p>
+                <div class="comment" style="word-wrap: break-word;">
+                    <div style = "display: flex; align-items: center; padding-bottom: 0px;">
+                        <p style = "flex: 1; font-weight: 600; margin-right: 12px; font-size: 14px;">{{comment.user.first_name}}</p>
+                        <p class="small" style = "font-size: 11px; margin-left:10px">{{comment.postDate|date:"Y/m/d H:i"}}</p>
+    <!--                    {{question.postDate|date:"Y/m/d H:i"}}-->
+                    </div>
+                        <p style = "font-size: 14px; padding-top: 0px;">
+                            {{comment.content}}
+                        </p>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
+<!--                        <div class="d-flex align-items-center">-->
 <!--                            {% if comment.owner_accepted == 1 %}-->
 <!--                            <a href="#!" class="link-muted me-2" style='font-size:14px; color: dodgerblue'>-->
 <!--                                <i class="fas fa-check me-1" style='font-size:24px; color: dodgerblue'></i>-->
 <!--                                질문자 채택</a>-->
 <!--                            {% endif %}-->
-                            {% if comment.admin_accepted == 1 %}
-                            <a class="link-muted" style='font-size:14px; color: darkblue'>
-                                <i class="fas fa-check me-1" style='font-size:24px; color:darkblue'></i>교수자 채택</a>
-                            {% endif %}
-                        </div>
-                        {% if user.id == question.user.id and comment.owner_accepted == 0 %}
-                        <form action="{% url 'comment_owner_like' comment.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>
-                        </form>
-                        </form>
+<!--                            {% if comment.admin_accepted == 1 %}-->
+<!--                            <a class="link-muted" style='font-size:14px; color: darkblue'>-->
+<!--                                <i class="fas fa-check me-1" style='font-size:24px; color:darkblue'></i>교수자 채택</a>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+<!--                        {% if user.id == question.user.id and comment.owner_accepted == 0 %}-->
+<!--                        <form action="{% url 'comment_owner_like' comment.id %}" method="post">-->
+<!--                            {% csrf_token %}-->
+<!--&lt;!&ndash;                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>&ndash;&gt;-->
+<!--                            <button type="submit" class="btn btn-dark" style="margin-right: 20px; background-color: #5E81F4; border-color: #5E81F4; color: #fff; padding: 3px 8px; font-size: 10px;">질문 채택</button>-->
+<!--                        </form>-->
 
-                        {% elif user.is_staff and comment.admin_accepted == 0 %}
-                        <form action="{% url 'comment_admin_like' comment.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>
-                        </form>
-                        {% endif %}
+<!--                        {% elif user.is_staff and comment.admin_accepted == 0 %}-->
+<!--                        <form action="{% url 'comment_admin_like' comment.id %}" method="post">-->
+<!--                            {% csrf_token %}-->
+<!--&lt;!&ndash;                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>&ndash;&gt;-->
+<!--                            <button type="submit" class="btn btn-dark" style="margin-right: 20px; background-color: #21C197; border-color: #21C197; color: #fff; padding: 3px 8px; font-size: 10px;">질문 채택</button>-->
+<!--                        </form>-->
+<!--                        {% endif %}-->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div><div class = "text-right" style = "margin-top: 7px;">{% if user.id == question.user.id and comment.owner_accepted == 0 %}
+    <form action="{% url 'comment_owner_like' comment.id %}" method="post">
+        {% csrf_token %}
+        <!--                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>-->
+        <button type="submit" class="btn btn-dark" style="margin-right: 20px; background-color: #5E81F4; border-color: #5E81F4; color: #fff; padding: 3px 8px; font-size: 10px;">질문 채택</button>
+    </form>
+
+    {% elif user.is_staff and comment.admin_accepted == 0 %}
+    <form action="{% url 'comment_admin_like' comment.id %}" method="post">
+        {% csrf_token %}
+        <!--                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>-->
+        <button type="submit" class="btn btn-dark" style="margin-right: 20px; background-color: #21C197; border-color: #21C197; color: #fff; padding: 3px 8px; font-size: 10px;">질문 채택</button>
+    </form>
+    {% endif %}</div>
     {% endfor %}
 </div>
 
@@ -107,11 +136,13 @@
     {% csrf_token %}
     <input type="hidden" id="question" name="question" value={{question.id}}>
     <input type="hidden" id="user" name="user" value="{{user.id}}">
-    <div style="margin-left: 10px;">
-        <textarea type="content" name="content" value="{{content}}" class="form-control" rows="4" maxlength="2000" placeholder="답글을 입력하세요"></textarea>
-        <div class="row mt-4">
+    <div style= "margin-left: 10px;">
+        <textarea type="content" name="content" value="{{content}}" class="form-control" rows="4" maxlength="300" placeholder="답글을 입력하세요" style = "font-size: 14px;"></textarea>
+        <div class="row mt-2">
             <div class="col-12">
-                <button type="submit" class="btn btn-dark btn-lg" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">답글 등록</button>
+                <div class = "text-center">
+                    <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">답글 등록</button>
+                </div>
             </div>
         </div>
     </div>
