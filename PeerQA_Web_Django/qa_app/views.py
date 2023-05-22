@@ -34,34 +34,55 @@ def signout(request):
 def question_list(request):
     if request.user.is_authenticated:
         request.session["subject"] = 1
-        questions = Question.objects.filter(subject=1).annotate(
-            count=Subquery(
-                Comment.objects.filter(question=OuterRef('id'))
+        if request.method == "GET":
+            questions = Question.objects.filter(subject=1).annotate(
+                count=Subquery(
+                    Comment.objects.filter(question=OuterRef('id'))
+                        .values('question')
+                        .annotate(count=Count('id'))
+                        .values('count')
+                )
+            )
+        elif request.method == "POST":
+            questions = Question.objects.filter(subject=1).filter(tag=request.POST['tag']).annotate(
+                count=Subquery(
+                    Comment.objects.filter(question=OuterRef('id'))
                     .values('question')
                     .annotate(count=Count('id'))
                     .values('count')
+                )
             )
-        )
         for i in range(len(questions)):
             if questions[i].count == None: questions[i].count = 0
             questions[i].count = "{:02d}".format(questions[i].count)
         context = {"question_list": questions, "user": request.user}
 
         return render(request, "view/question_list.html", context)
+
     else:
         return redirect("/question/signin/")
 
 def question_list2(request):
     if request.user.is_authenticated:
         request.session["subject"] = 2
-        questions = Question.objects.filter(subject=2).annotate(
-            count=Subquery(
-                Comment.objects.filter(question=OuterRef('id'))
-                .values('question')
-                .annotate(count=Count('id'))
-                .values('count')
+        if request.method == "GET":
+            questions = Question.objects.filter(subject=2).annotate(
+                count=Subquery(
+                    Comment.objects.filter(question=OuterRef('id'))
+                    .values('question')
+                    .annotate(count=Count('id'))
+                    .values('count')
+                )
             )
-        )
+        elif request.method == "POST":
+            questions = Question.objects.filter(subject=2).filter(tag=request.POST['tag']).annotate(
+                count=Subquery(
+                    Comment.objects.filter(question=OuterRef('id'))
+                    .values('question')
+                    .annotate(count=Count('id'))
+                    .values('count')
+                )
+            )
         for i in range(len(questions)):
             if questions[i].count == None: questions[i].count = 0
             questions[i].count = "{:02d}".format(questions[i].count)
