@@ -12,8 +12,12 @@ from django.db.models import OuterRef, Subquery, Count
 
 lectures = {"Lecture 8: Storage (2)": 21, "Lecture 9: Indexing (1)": 40
     , "Lecture 10: Indexing (2)": 36}
+lectures2 = {"Lecture 16: Query Processing (1)": 22, "Lecture 17: Query Processing (2)": 46
+             , "Lecture 18: Big Query Practice": 41}
 lecture_dir = {"Lecture 8: Storage (2)": "L08", "Lecture 9: Indexing (1)": "L09"
     , "Lecture 10: Indexing (2)": "L10"}
+lecture_dir2 = {"Lecture 16: Query Processing (1)": "L16", "Lecture 17: Query Processing (2)": "L17"
+                , "Lecture 18: Big Query Practice": "L18"}
 tag = {"B+ Tree": "B+ Tree" , "Hash": "Hash", "Neo4j": "Neo4j", "PostgreSQL": "PostgreSQL"}
 
 # Create your views here.
@@ -29,7 +33,8 @@ def signout(request):
 
 def question_list(request):
     if request.user.is_authenticated:
-        questions = Question.objects.annotate(
+        request.session["subject"] = 1
+        questions = Question.objects.filter(subject=1).annotate(
             count=Subquery(
                 Comment.objects.filter(question=OuterRef('id'))
                     .values('question')
@@ -46,22 +51,53 @@ def question_list(request):
     else:
         return redirect("/question/signin/")
 
+def question_list2(request):
+    if request.user.is_authenticated:
+        request.session["subject"] = 2
+        questions = Question.objects.filter(subject=2).annotate(
+            count=Subquery(
+                Comment.objects.filter(question=OuterRef('id'))
+                .values('question')
+                .annotate(count=Count('id'))
+                .values('count')
+            )
+        )
+        for i in range(len(questions)):
+            if questions[i].count == None: questions[i].count = 0
+            questions[i].count = "{:02d}".format(questions[i].count)
+        context = {"question_list": questions, "user": request.user}
+
+        return render(request, "view/question_list.html", context)
+    else:
+        return redirect("/question/signin/")
+
 
 def question_form(request):
     if request.user.is_authenticated:
         if request.method == "GET":
-            form = QuestionForm()
-            return render(request, "view/question_form.html", {"form": form,
-                                                               "lectures": lectures, "user": request.user, "tags": tag})
+            if request.session["subject"] == 1:
+                form = QuestionForm()
+                return render(request, "view/question_form.html", {"form": form,
+                                                                   "lectures": lectures, "user": request.user, "tags": tag})
+            else:
+                form = QuestionForm()
+                return render(request, "view/question_form.html", {"form": form,
+                                                                   "lectures": lectures2, "user": request.user, "tags": tag})
         elif request.method == "POST":
             form = QuestionForm(request.POST)
-
             if form.is_valid():
+
+                post = form.save(commit=False)
                 qn = request.user.question_num
                 qn += 1
                 User.objects.filter(pk=request.user.id).update(question_num=qn)
-                form.save()
-            return redirect("/question/")
+                subject = request.session["subject"]
+                post.subject = subject
+                post.save()
+            if request.session["subject"] == 1:
+                return redirect("/question/")
+            else:
+                return redirect("/question/2/")
     else:
         return redirect("/question/signin/")
 
@@ -71,8 +107,12 @@ def question_detail(request, id):
             question = Question.objects.get(pk=id)
             comments = Comment.objects.filter(question=id)
             count = comments.count()
-            file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
-            src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
+            if question.subject == 1:
+                file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
+                src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
+            else:
+                file_name = "/Page" + str(question.lecture_slide) + ".jpg"
+                src_text = static("lecture/" + lecture_dir2[question.lecture_name] + file_name)
             context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments, "count": count}
             request.session["qid"] = id
 
@@ -135,20 +175,33 @@ def comment_owner_like(request, id):
 
 def load_pages(request):
     if request.user.is_authenticated:
-        lecture_id = request.GET.get('lecture_id')
-        pages = []
-        if (lecture_id != ""):
-            pages = range(1, lectures[lecture_id]+1)
-        return render(request, 'component/page_dropdown_options.html', {'pages': pages})
+        if request.session["subject"] == 1:
+            lecture_id = request.GET.get('lecture_id')
+            pages = []
+            if (lecture_id != ""):
+                pages = range(1, lectures[lecture_id]+1)
+            return render(request, 'component/page_dropdown_options.html', {'pages': pages})
+        else:
+            lecture_id = request.GET.get('lecture_id')
+            pages = []
+            if (lecture_id != ""):
+                pages = range(1, lectures2[lecture_id]+1)
+            return render(request, 'component/page_dropdown_options.html', {'pages': pages})
     else:
         return redirect("/question/signin/")
 
 def load_slide(request):
-    lecture = request.GET.get('lecture')
-    slide = request.GET.get('slide')
+    if request.session["subject"] == 1:
+        lecture = request.GET.get('lecture')
+        slide = request.GET.get('slide')
 
-    file_name = "/Page" + slide + ".jpeg"
-    src = static("lecture/" + lecture_dir[lecture] + file_name)
+        file_name = "/Page" + slide + ".jpeg"
+        src = static("lecture/" + lecture_dir[lecture] + file_name)
+    else:
+        lecture = request.GET.get('lecture')
+        slide = request.GET.get('slide')
+        file_name = "/Page" + slide + ".jpg"
+        src = static("lecture/" + lecture_dir2[lecture] + file_name)
 
     return HttpResponse(src)
 

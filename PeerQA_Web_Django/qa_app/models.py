@@ -18,10 +18,11 @@ class Question(models.Model):
     title = models.CharField(max_length=200)
     content = models.CharField(max_length=2000)
     status = models.CharField(max_length=12)
-    lecture_name = models.CharField(max_length=24)
+    lecture_name = models.CharField(max_length=50)
     lecture_slide = models.IntegerField()
     postDate = models.DateTimeField(auto_now=True)
     tag = models.CharField(max_length=24)
+    subject = models.IntegerField(default=1)
 
 
 class Comment(models.Model):

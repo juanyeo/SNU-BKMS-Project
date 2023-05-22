@@ -4,6 +4,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path("", views.question_list),  # address:8080/question/
+    path("2/", views.question_list2),
     path("form/", views.question_form),  # address:8080/question/form
     path("delete/<int:id>", views.question_delete, name="question_delete"),
     path("detail/<int:id>", views.question_detail, name="question_detail"),
