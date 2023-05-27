@@ -78,10 +78,11 @@ WSGI_APPLICATION = "qa_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "QuestionDB",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",
+        "NAME": "teamdb6",
+        "USER": "team6",
+        "PASSWORD": "snupeer6",
+        "HOST": "147.47.200.145",
+        "PORT": "34543",
     }
 }
 
