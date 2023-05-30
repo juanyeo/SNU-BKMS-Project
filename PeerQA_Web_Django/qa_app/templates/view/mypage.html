@@ -40,7 +40,7 @@
                 </div>
                 {% else %}
                 <div class = "col-3">
-                    <i class="fa-solid fa-question fa-3x" style="width: 100px; text-align: center; color:gainsboro"></i>
+                    <i class="fas fa-question fa-3x" style="width: 100px; text-align: center; color:gainsboro"></i>
                     <p style="width: 100px; text-align: center; margin-top: 10px; font-size: 11px;">게시글 3개</p>
                 </div>
                 {% endif %}
@@ -88,7 +88,7 @@
 <h4 style="font-weight: 600; margin-left:10px;">🚀 내가 한 질문</h4>
 <div class="scroll-bar-no" style="overflow-x: scroll; white-space: nowrap; width: 750px; height:220px; padding: 10px; margin: auto; margin-top: 20px; margin-bottom: 40px;" >
 {% for question in my_questions %}
-<div style="position: relative; background-color: #F5F5FB; border:none; border-radius: 12px; width: 300px; height: 200px; padding: 16px; margin-right: 10px; display:inline-block;">
+<div onclick="location.href=`{% url 'question_detail' question.id %}`" style="position: relative; background-color: #F5F5FB; border:none; border-radius: 12px; width: 300px; height: 200px; padding: 16px; margin-right: 10px; display:inline-block;">
     <p style="overflow:hidden; width: 100%; font-weight: 600;">{{question.title | slice:":50"}}</p>
     <p style="overflow:hidden; white-space: normal; width: 100%; height: 70px; margin-top: 24px;">{{question.content | slice:":100"}}</p>
     <span style="position: absolute; left: 16px; bottom: 12px; text-align: left; font-weight: 600; color: #5E81F4">{{question.status}}</span>
@@ -99,7 +99,7 @@
 <h4 style="font-weight: 600; margin-left:10px;">📌 스크랩 한 질문</h4>
 <div class="scroll-bar-no" style="overflow-x: scroll; white-space: nowrap; width: 750px; height:200px; margin: auto; margin-top: 20px; margin-bottom: 40px;" >
 {% for question in scraps %}
-<div style="position: relative; background-color: #FBF5F5; border:none; border-radius: 12px; width: 300px; height: 200px; padding: 16px; margin-right: 10px; display:inline-block;">
+<div onclick="location.href=`{% url 'question_detail' question.id %}`" style="position: relative; background-color: #FBF5F5; border:none; border-radius: 12px; width: 300px; height: 200px; padding: 16px; margin-right: 10px; display:inline-block;">
     <p style="overflow:hidden; width: 100%; font-weight: 600;">{{question.title | slice:":50"}}</p>
     <p style="overflow:hidden; white-space: normal; width: 100%; height: 70px; margin-top: 24px;">{{question.content | slice:":100"}}</p>
     <span style="position: absolute; left: 16px; bottom: 12px; text-align: left; font-weight: 600; color: #E5BEBE">{{question.status}}</span>

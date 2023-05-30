@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block center_top %}
-<div style="margin-bottom: 62px">
+<div style="margin-bottom: 15px">
     <form action="" method="post">
         {% csrf_token %}
         <div style="position:relative; display: flex;">
@@ -13,10 +13,21 @@
         </div>
     </form>
  </div>
+<div style = "margin-bottom: 15px; display: flex;">
+    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Transaction</button>
+    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Query Processing</button>
+    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">PostgreSQL</button>
+    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제4</button>
+    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">기타</button>
+</div>
+
+
 {% endblock center_top %}
 
 {% block content %}
 {% for question in question_list %}
+
+
 <div class="px-3" onclick="location.href=`{% url 'question_detail' question.id %}`">
     <div class="row">
         <div style="float: left; width: 90%;">
@@ -33,14 +44,14 @@
         </div>
     </div>
     <div class="row" style="float: right;">
-        <button style="float: right; margin-right:10px; font-weight: 600;">
+        <button style="padding: 3px 7px; font-size: 12px; color: #ffffff;  background-color: #F3909D; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px;">
             {{question.tag}}
         </button>
         <div style="float: right; margin-right:10px; font-weight: 600;">
             {{question.user.first_name}}
         </div>
         <div style="float: right;">
-            {{question.postDate}}
+            {{question.postDate|date:"Y/m/d H:i"}}
         </div>
     </div>
     <!-- <form action="{% url 'question_delete' question.id %}" method="post">
