@@ -10,7 +10,7 @@
     <span style= "margin-left: 20px; font-size: 13px"><i class="fab fa-stack-overflow" style="margin-right: 5px;"></i>상태: {{question.status}}</span>
 </div>
 <hr class="h-color mx-2" style="margin-top: 8px; margin-bottom: 15px;">
-<p style="font-size: 15px; margin-left: 10px; margin-bottom: 40px;">{{question.content}}</p>
+<p style="font-size: 15px; margin-left: 10px; margin-bottom: 40px;">{{question.content | linebreaks}}</p>
 {% if question.lecture_name != "" %}
 <div class="card m-3 parent-card" style=" background-color: lightblue;">
     <div class="row no-gutters" >
@@ -82,7 +82,7 @@
     <!--                    {{question.postDate|date:"Y/m/d H:i"}}-->
                     </div>
                         <p style = "font-size: 14px; padding-top: 0px;">
-                            {{comment.content}}
+                            {{comment.content | linebreaks}}
                         </p>
 
                     <div class="d-flex justify-content-between align-items-center">
