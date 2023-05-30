@@ -18,7 +18,11 @@ lecture_dir = {"Lecture 8: Storage (2)": "L08", "Lecture 9: Indexing (1)": "L09"
     , "Lecture 10: Indexing (2)": "L10"}
 lecture_dir2 = {"Lecture 16: Query Processing (1)": "L16", "Lecture 17: Query Processing (2)": "L17"
                 , "Lecture 18: Big Query Practice": "L18"}
-tag = {"B+ Tree": "B+ Tree" , "Hash": "Hash", "Neo4j": "Neo4j", "PostgreSQL": "PostgreSQL"}
+tag = {"DB Design": "DB Design", "Query": "Query", "Storage": "Storage", "Indexing": "Indexing",
+       "Query Processing": "Query Processing", "Transaction": "Transaction", "Neo4j": "Neo4j", "PostgreSQL": "PostgreSQL",
+       "DBeaver": "DBeaver", "pgAdmin": "pgAdmin", "BigQuery": "BigQuery", "과제 1": "과제 1", "과제 2": "과제 2", "과제 3": "과제 3",
+       "과제 4": "과제 4", "기타": "기타"}
+
 
 # Create your views here.
 def signout(request):
