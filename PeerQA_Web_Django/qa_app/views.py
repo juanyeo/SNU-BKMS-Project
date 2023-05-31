@@ -58,7 +58,7 @@ def question_list(request):
         for i in range(len(questions)):
             if questions[i].count == None: questions[i].count = 0
             questions[i].count = "{:02d}".format(questions[i].count)
-        context = {"question_list": questions, "user": request.user}
+        context = {"question_list": questions, "user": request.user, "subject": 1}
 
         return render(request, "view/question_list.html", context)
 
@@ -89,7 +89,7 @@ def question_list2(request):
         for i in range(len(questions)):
             if questions[i].count == None: questions[i].count = 0
             questions[i].count = "{:02d}".format(questions[i].count)
-        context = {"question_list": questions, "user": request.user}
+        context = {"question_list": questions, "user": request.user, "subject": 2}
 
         return render(request, "view/question_list.html", context)
     else:

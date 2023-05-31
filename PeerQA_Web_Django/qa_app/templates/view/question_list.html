@@ -13,14 +13,64 @@
         </div>
     </form>
  </div>
-<div style = "margin-bottom: 15px; display: flex;">
-    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Transaction</button>
-    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Query Processing</button>
-    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">PostgreSQL</button>
-    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제4</button>
-    <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">기타</button>
-</div>
 
+{% if subject == 1 %}
+<div style = "margin-bottom: 15px; display: flex;">
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="Query">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Query</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="Storage">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Storage</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="Indexing">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Indexing</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="과제1">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제1</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="기타">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">기타</button>
+    </form>
+</div>
+{% else %}
+<div style = "margin-bottom: 15px; display: flex;">
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="Transaction">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Transaction</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="Neo4j">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Neo4j</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="BigQuery">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">BigQuery</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="과제3">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제3</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="기타">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">기타</button>
+    </form>
+</div>
+{% endif %}
 
 {% endblock center_top %}
 
