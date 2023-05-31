@@ -80,9 +80,9 @@ def Question():
     
     return render_template('Question.html')
 
-@app.route('/result',methods = ['POST', 'GET']) ## stackoverflow data search engine.
+@app.route('/stackoverflow',methods = ['POST', 'GET']) ## stackoverflow data search engine.
 @cross_origin()
-def result():
+def so_result():
     if request.method == 'GET':
 
         question = request.args["question_title"]
@@ -92,9 +92,9 @@ def result():
         ## ranking_dict 구조를 고치는 게 나을듯.
         return jsonify(ranking_dict)
 
-@app.route('/ETL',methods = ['POST', 'GET']) ## ETL data search engine
+@app.route('/etl',methods = ['POST', 'GET']) ## ETL data search engine
 @cross_origin()
-def result():
+def etl_result():
     if request.method == 'GET':
 
         question = request.args["question_title"]
