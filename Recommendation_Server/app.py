@@ -88,7 +88,7 @@ def so_result():
         question = request.args["question_title"]
         question = translator.translate(question, dest = 'en').text
         SO_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), SO_title_Data, SO_body_Data)
-        ranking_dict = {'www.stackoverflow.com/questions/' + str(StackOverflow_Data.iloc[int(SO_ranking[-i]), 1]): StackOverflow_Data['title'][int(SO_ranking[-i])] for i in range(len(SO_ranking))}
+        ranking_dict = {'www.stackoverflow.com/questions/' + str(StackOverflow_Data.iloc[int(SO_ranking[-i-1]), 1]): StackOverflow_Data['title'][int(SO_ranking[-i-1])] for i in range(len(SO_ranking))}
         ## ranking_dict 구조를 고치는 게 나을듯.
         return jsonify(ranking_dict)
 
@@ -100,7 +100,7 @@ def etl_result():
         question = request.args["question_title"]
         question = translator.translate(question, dest = 'en').text
         etl_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), etl_title_Data, etl_body_Data)
-        ranking_dict = {'':etl_Data['title'][int(etl_ranking[-i])] for i in range(len(etl_ranking))} # Not Determined Yet.
+        ranking_dict = {'':etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
         ## ranking_dict 구조를 고치는 게 나을듯.
         return jsonify(ranking_dict)
 

@@ -31,12 +31,11 @@ class Mips():
             충돌이 가장 많이 일어난(내적값이 가장 크다고 판단된) 데이터 중
             self.rank_size 개수만큼의 데이터에 대한 인덱스를 반환함.
         """
-        collision = 0
         Q = self.expand_q(query) # shape: (1, embedding_dim + self.m)
         hash_mapped = self.hash_functions(Q) # shape: (1, number of hash function) -> hash 함수 통하여 정수형 벡터로 변환
         title_collision = torch.sum(torch.where((hash_mapped - titleData)==0, True, False), 1).reshape(-1)
         body_collision = torch.sum(torch.where((hash_mapped - bodyData)==0, True, False), 1).reshape(-1)
-        sorted, indices = torch.sort(title_collision + body_collision)
+        _, indices = torch.sort(title_collision + body_collision)
         ranking = indices[-self.rank_size:]
         
         return ranking

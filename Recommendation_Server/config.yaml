@@ -3,10 +3,10 @@
 embedding_size: 384 # fix as 384!
 
 # Mips parameters
-hash_num : 50
+hash_num : 10000
 m: 100
-ranking_size : 10
-r: 23
+ranking_size : 5
+r: 7
 
 hash_ft_path: 'gen_ids/hash_ft.pickle'
 hash_table_path: 'gen_ids/hash_table.pickle'
