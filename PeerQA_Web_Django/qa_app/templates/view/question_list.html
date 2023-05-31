@@ -18,6 +18,11 @@
 <div style = "margin-bottom: 15px; display: flex;">
     <form action="" method="post">
         {% csrf_token %}
+        <input type="hidden" name="tag" value="DB Design ">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">DB Design </button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
         <input type="hidden" name="tag" value="Query">
         <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Query</button>
     </form>
@@ -33,8 +38,28 @@
     </form>
     <form action="" method="post">
         {% csrf_token %}
+        <input type="hidden" name="tag" value="PostgreSQL">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">PostgreSQL</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="DBeaver">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">DBeaver</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="pgAdmin">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">pgAdmin</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
         <input type="hidden" name="tag" value="과제1">
         <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제1</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="과제2">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제2</button>
     </form>
     <form action="" method="post">
         {% csrf_token %}
@@ -44,6 +69,11 @@
 </div>
 {% else %}
 <div style = "margin-bottom: 15px; display: flex;">
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="Query Processing">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Query Processing</button>
+    </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Transaction">
@@ -61,8 +91,18 @@
     </form>
     <form action="" method="post">
         {% csrf_token %}
+        <input type="hidden" name="tag" value="Logging">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">Logging</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
         <input type="hidden" name="tag" value="과제3">
         <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제3</button>
+    </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="tag" value="과제4">
+        <button style="padding: 3px 7px; font-size: 12px;  background-color: floralwhite; float: right; border: none; margin-right:10px; font-weight: 600; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2)">과제4</button>
     </form>
     <form action="" method="post">
         {% csrf_token %}
