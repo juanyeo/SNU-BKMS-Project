@@ -18,11 +18,10 @@ lecture_dir = {"Lecture 8: Storage (2)": "L08", "Lecture 9: Indexing (1)": "L09"
     , "Lecture 10: Indexing (2)": "L10"}
 lecture_dir2 = {"Lecture 16: Query Processing (1)": "L16", "Lecture 17: Query Processing (2)": "L17"
                 , "Lecture 18: Big Query Practice": "L18"}
-tag = {"DB Design": "DB Design", "Query": "Query", "Storage": "Storage", "Indexing": "Indexing",
-       "Query Processing": "Query Processing", "Transaction": "Transaction", "Neo4j": "Neo4j", "PostgreSQL": "PostgreSQL",
-       "DBeaver": "DBeaver", "pgAdmin": "pgAdmin", "BigQuery": "BigQuery", "과제 1": "과제 1", "과제 2": "과제 2", "과제 3": "과제 3",
-       "과제 4": "과제 4", "기타": "기타"}
-
+tag1 = {"DB Design": "DB Design", "Query": "Query", "Storage": "Storage", "Indexing": "Indexing",
+       "PostgreSQL": "PostgreSQL", "DBeaver": "DBeaver", "pgAdmin": "pgAdmin", "과제 1": "과제 1", "과제 2": "과제 2",  "기타": "기타"}
+tag2 = {"Query Processing": "Query Processing", "Transaction": "Transaction", "Neo4j": "Neo4j", "BigQuery": "BigQuery", "과제 3": "과제 3",
+        "과제 4": "과제 4", "기타": "기타"}
 
 # Create your views here.
 def signout(request):
@@ -103,11 +102,11 @@ def question_form(request):
             if request.session["subject"] == 1:
                 form = QuestionForm()
                 return render(request, "view/question_form.html", {"form": form,
-                                                                   "lectures": lectures, "user": request.user, "tags": tag})
+                                                                   "lectures": lectures, "user": request.user, "tags": tag1})
             else:
                 form = QuestionForm()
                 return render(request, "view/question_form.html", {"form": form,
-                                                                   "lectures": lectures2, "user": request.user, "tags": tag})
+                                                                   "lectures": lectures2, "user": request.user, "tags": tag2})
         elif request.method == "POST":
             form = QuestionForm(request.POST)
             if form.is_valid():
