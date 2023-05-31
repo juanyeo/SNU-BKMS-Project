@@ -55,7 +55,7 @@ SO_body_Data = SO_body_hash_table.table
 print("Stack Overflow Data Loading complete")
 
 ## etl data
-etl_Data = pd.read_csv('SOF_dbms.csv')
+etl_Data = pd.read_csv('etl_Questions.csv')
 etl_title = [text for text in etl_Data['title']]
 etl_body = [text for text in etl_Data['content']]
 
@@ -89,7 +89,6 @@ def so_result():
         question = translator.translate(question, dest = 'en').text
         SO_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), SO_title_Data, SO_body_Data)
         ranking_dict = {'www.stackoverflow.com/questions/' + str(StackOverflow_Data.iloc[int(SO_ranking[-i-1]), 1]): StackOverflow_Data['title'][int(SO_ranking[-i-1])] for i in range(len(SO_ranking))}
-        ## ranking_dict 구조를 고치는 게 나을듯.
         return jsonify(ranking_dict)
 
 @app.route('/etl',methods = ['POST', 'GET']) ## ETL data search engine
@@ -100,8 +99,7 @@ def etl_result():
         question = request.args["question_title"]
         question = translator.translate(question, dest = 'en').text
         etl_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), etl_title_Data, etl_body_Data)
-        ranking_dict = {'':etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
-        ## ranking_dict 구조를 고치는 게 나을듯.
+        ranking_dict = {str(etl_Data['id'][int(etl_ranking[-i-1])]):etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
         return jsonify(ranking_dict)
 
 
