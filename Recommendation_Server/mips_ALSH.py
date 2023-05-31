@@ -36,7 +36,8 @@ class Mips():
         hash_mapped = self.hash_functions(Q) # shape: (1, number of hash function) -> hash 함수 통하여 정수형 벡터로 변환
         title_collision = torch.sum(torch.where((hash_mapped - titleData)==0, True, False), 1).reshape(-1)
         body_collision = torch.sum(torch.where((hash_mapped - bodyData)==0, True, False), 1).reshape(-1)
-        ranking = torch.argsort(title_collision + body_collision)[-self.rank_size:]
+        sorted, indices = torch.sort(title_collision + body_collision)
+        ranking = indices[-self.rank_size:]
         
         return ranking
         
@@ -114,9 +115,9 @@ class Hash_Table():
         else:
             self.table = table
         if not self.hashness_check():
-            print("Current data is not completely preprocessed. Wait for preprocessing.")
+            # print("Current data is not completely preprocessed. Wait for preprocessing.")
             self.table = self.emb2hs()
-
+            print("Preprocessing Done.")
     def hashness_check(self):
         if type(self.table) != list:
             return False
@@ -142,5 +143,4 @@ class Hash_Table():
 
     def emb2hs(self):
         return self.hash_function(self.expand())
-        
         
