@@ -18,4 +18,5 @@ urlpatterns = [
     path("mypage/", views.mypage, name="mypage"),
     path("signout/", views.signout, name="signout"),
     path("scrap/", views.scrap, name="scrap"),
+    path("olap/", views.olap, name="olap_page"),
 ]

@@ -58,7 +58,7 @@ hr.h-color {
 .right_toolbar {
     background: #F5F5FB;
     margin-top:30px;
-    min-height: 900px;
+    min-height: 100%;
     border-top-left-radius: 30px;
 }
 

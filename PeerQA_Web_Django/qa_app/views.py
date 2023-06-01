@@ -9,19 +9,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from .models import User
 from django.db.models import OuterRef, Subquery, Count
-
-lectures = {"Lecture 8: Storage (2)": 21, "Lecture 9: Indexing (1)": 40
-    , "Lecture 10: Indexing (2)": 36}
-lectures2 = {"Lecture 16: Query Processing (1)": 22, "Lecture 17: Query Processing (2)": 46
-             , "Lecture 18: Big Query Practice": 41}
-lecture_dir = {"Lecture 8: Storage (2)": "L08", "Lecture 9: Indexing (1)": "L09"
-    , "Lecture 10: Indexing (2)": "L10"}
-lecture_dir2 = {"Lecture 16: Query Processing (1)": "L16", "Lecture 17: Query Processing (2)": "L17"
-                , "Lecture 18: Big Query Practice": "L18"}
-tag1 = {"DB Design": "DB Design", "Query": "Query", "Storage": "Storage", "Indexing": "Indexing",
-       "PostgreSQL": "PostgreSQL", "DBeaver": "DBeaver", "pgAdmin": "pgAdmin", "과제 1": "과제 1", "과제 2": "과제 2",  "기타": "기타"}
-tag2 = {"Query Processing": "Query Processing", "Transaction": "Transaction", "Neo4j": "Neo4j", "BigQuery": "BigQuery", "과제 3": "과제 3",
-        "과제 4": "과제 4", "기타": "기타"}
+from .constants import *
 
 # Create your views here.
 def signout(request):
@@ -131,12 +119,8 @@ def question_detail(request, id):
             question = Question.objects.get(pk=id)
             comments = Comment.objects.filter(question=id)
             count = comments.count()
-            if question.subject == 1:
-                file_name = "/Page" + str(question.lecture_slide) + ".jpeg"
-                src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
-            else:
-                file_name = "/Page" + str(question.lecture_slide) + ".jpg"
-                src_text = static("lecture/" + lecture_dir2[question.lecture_name] + file_name)
+            file_name = "/Page" + str(question.lecture_slide) + ".jpg"
+            src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
             context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments, "count": count}
             request.session["qid"] = id
 
@@ -219,13 +203,13 @@ def load_slide(request):
         lecture = request.GET.get('lecture')
         slide = request.GET.get('slide')
 
-        file_name = "/Page" + slide + ".jpeg"
+        file_name = "/Page" + slide + ".jpg"
         src = static("lecture/" + lecture_dir[lecture] + file_name)
     else:
         lecture = request.GET.get('lecture')
         slide = request.GET.get('slide')
         file_name = "/Page" + slide + ".jpg"
-        src = static("lecture/" + lecture_dir2[lecture] + file_name)
+        src = static("lecture/" + lecture_dir[lecture] + file_name)
 
     return HttpResponse(src)
 
@@ -281,6 +265,12 @@ def mypage(request):
         scraps = Scrap.objects.filter(user=request.user)
         scraps = [scraps.question for scraps in scraps]
         return render(request, "view/mypage.html", {"my_questions": my_questions, "user": request.user, "accepted": accepted, "scraps": scraps})
+    else:
+        return redirect("/question/signin/")
+    
+def olap(request):
+    if request.user.is_authenticated:
+        return render(request, "view/olap.html")
     else:
         return redirect("/question/signin/")
 

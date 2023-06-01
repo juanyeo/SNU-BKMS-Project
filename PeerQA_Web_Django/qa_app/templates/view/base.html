@@ -52,25 +52,22 @@
             <hr class="h-color mx-2">
             <ul class="list-unstyled px-2">
                 <li class=""><a href="/question/" class="text-decoration-none px-3 py-3 d-block"><i class="fas fa-server" style="color: #5E81F4;"></i><span class="px-2">빅데이터 및 지식 관리 시스템 1</span></a></li>
-                <li class=""><a href="/question/2/" class="text-decoration-none px-3 py-3 d-block"><i class="fas fa-project-diagram" style="color: #5E81F4;"></i><span class="px-2">빅데이터 및 지식 관리 시스템 2</span></a></li>
-                <li class=""><a href="/question/" class="text-decoration-none d-flex justify-content-between px-3 py-3 d-block">
-                    <span><i class="far fa-fire-alt" style="color: red;"></i><span class="px-2">진행 중인 토의</span></span>
-                    <span class="bg-danger rounded-pill text-white py-0 px-2">02</span>
+                <li class=""><a href="/question/2/" class="text-decoration-none px-3 py-3 d-block"><i class="fas fa-project-diagram" style="color: #4E41F4;"></i><span class="px-2">빅데이터 및 지식 관리 시스템 2</span></a></li>
+                <li class=""><a href="/question/mypage/" class="text-decoration-none px-3 py-3 d-block"><i class="fas fa-trophy-alt" style="color: #C0CA33;"></i><span class="px-2">마이 페이지</span></a></li>
+                <li class=""><a href="/question/olap/" class="text-decoration-none d-flex justify-content-between px-3 py-3 d-block">
+                    <span><i class="far fa-fire-alt" style="color: red;"></i><span class="px-2">Neo4j 통계 (OLAP)</span></span>
+                    <!-- <span class="bg-danger rounded-pill text-white py-0 px-2">03</span> -->
                 </a>
                 </li>
-                <li class=""><a href="/question/mypage/" class="text-decoration-none px-3 py-3 d-block"><i class="fas fa-trophy-alt" style="color: #C0CA33;"></i><span class="px-2">마이 페이지</span></a></li>
             </ul>
             <hr class="h-color mx-2">
 
             <ul class="list-unstyled px-2" onclick="location.href='/question/signout/'">
                 <li class=""><a href="/question/signout/" class="text-decoration-none px-3 py-3 d-block"><i class="fas fa-sign-out"  style="color: #0D47A1;"></i><span class="px-2">로그아웃</span></a></li>
             </ul>
-
-
-
         </div>
         <div class="content">
-            <div class="container-fluid" style="margin-top:30px">
+            <div class="container-fluid" style="margin-top:30px; height: 100%;">
                 {% block center_top %}
                 {% endblock center_top %}
                 <div class="card"  style="min-height: 1000px; border-radius: 30px; border-color: #FFFFFF;">
@@ -86,7 +83,7 @@
                 <p class="col-auto snu_name">Seoul National University<br>Graduate School of Data Science</p>
                 <img class="snu_logo" src="{% static 'image/snu_logo.png' %}"></img>
             </div>
-            <div class="right_toolbar" style="padding-top: 30px;">
+            <div class="right_toolbar" style="padding-top: 30px; height: 100%;">
                 {% block right %}
                 {% endblock right %}
             </div>
