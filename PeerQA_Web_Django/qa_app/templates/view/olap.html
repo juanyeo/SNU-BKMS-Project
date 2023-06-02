@@ -81,26 +81,43 @@
             
             </script>
     </div>
-    <div class="card" style="width: 49%; height: 400px; border-radius: 15px; margin-top: 25px; float: left">
-        <canvas id="myChart" width="500" height="150"></canvas>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-        <script type="text/javascript">
+    <div class="card" style="width: 1100px; border-radius: 15px; padding: 20px; margin: auto; margin-top: 25px; "> 
+    <div id="tags" tag0="{{tags.0}}" tag1="{{tags.1}}" tag2="{{tags.2}}" tag3="{{tags.3}}" tag4="{{tags.4}}"></div>
+    <div id="counts" count0="{{counts.0}}" count1="{{counts.1}}" count2="{{counts.2}}" count3="{{counts.3}}" count4="{{counts.4}}"></div>
+    <h3 style="font-weight:600; margin: auto; margin-top: 20px; margin-bottom: 24px;">Question Number Ranking per Tag</h3>
+    <canvas id="myChart" style="width: 250px; height: 150px;"></canvas>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript">
             var context = document
                 .getElementById('myChart')
                 .getContext('2d');
+
+            var tags0 = $("#tags").attr("tag0")
+            var tags1 = $("#tags").attr("tag1")
+            var tags2 = $("#tags").attr("tag2")
+            var tags3 = $("#tags").attr("tag3")
+            var tags4 = $("#tags").attr("tag4")
+
+            var counts0 = $("#counts").attr("count0")
+            var counts1 = $("#counts").attr("count1")
+            var counts2 = $("#counts").attr("count2")
+            var counts3 = $("#counts").attr("count3")
+            var counts4 = $("#counts").attr("count4")
+
             var myChart = new Chart(context, {
                 type: 'bar', // 차트의 형태
                 data: { // 차트에 들어갈 데이터
                     labels: [
                         //x 축
-                        '1','2','3','4','5','6'
+                        tags0, tags1, tags2, tags3, tags4
                     ],
                     datasets: [
                         { //데이터
                             //label: 'test1', //차트 제목
                             fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
                             data: [
-                                21,19,25,20,23,26,25 //x축 label에 대응되는 데이터 값
+                                counts0, counts1, counts2, counts3, counts4 //x축 label에 대응되는 데이터 값
                             ],
                             backgroundColor: [
                                 //색상
@@ -143,18 +160,17 @@
                             }
                         ]
                     },
-            
                     legend: {
                         display: false,
-                    },
+                      },
+                  
                 }
             });
         </script>
 
-    
-    </div>
-    <div class="card" style="width: 49%; height: 400px; border-radius: 15px; margin-top: 25px; float: right">
-    </div>
+
+    </div> 
+
 </div>
 {% endblock content %}
 

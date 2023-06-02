@@ -11,6 +11,7 @@ from .models import User
 from django.db.models import OuterRef, Subquery, Count
 from .constants import *
 from .neo4jconn import *
+from .postgresconn import tag_ranking
 
 # Create your views here.
 def signout(request):
@@ -273,7 +274,8 @@ def olap(request):
     if request.user.is_authenticated:
         database2 = Database2()
         database2.update()
-        return render(request, "view/olap.html")
+        tag_rank = tag_ranking()
+        return render(request, "view/olap.html", tag_rank)
     else:
         return redirect("/question/signin/")
 

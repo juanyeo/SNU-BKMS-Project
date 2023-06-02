@@ -16,7 +16,9 @@ def tag_ranking():
     df = get_dataframe(query)
     tag_list = list(df['tag'])
     count_list = list(df['count'])
-    return {"tag_list":tag_list, "count_list":count_list}
+    tags = {str(i):tag_list[i] for i in range(len(tag_list))}
+    counts = {str(i):count_list[i] for i in range(len(count_list))}
+    return {"tags":tags, "counts":counts}
 
 
 def get_dataframe(given_query):
@@ -36,7 +38,7 @@ def get_dataframe(given_query):
     conn = psycopg2.connect(
         host=DATABASES['default']['HOST'],
         database=DATABASES['default']['NAME'],
-        user=DATABASES['default']['User'],
+        user=DATABASES['default']['USER'],
         password=DATABASES['default']['PASSWORD'],
         port=DATABASES['default']['PORT']
     )
