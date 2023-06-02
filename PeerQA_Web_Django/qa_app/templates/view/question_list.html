@@ -111,7 +111,7 @@
 <div class="px-3" onclick="location.href=`{% url 'question_detail' question.id %}`">
     <div class="row">
         <div style="float: left; width: 90%; margin-bottom: 5px;">
-            <span class="bg-warning rounded-pill text-white py-0 px-2">{{question.count}}</span>
+            <span style="background-color: #FFC26F; border-radius: 6px; color:white; padding-left:6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px;">{{question.count}}</span>
             <h5 style="font-weight: 600; margin-top: 10px;">{{question.title | slice:":60"}}</h5>
         </div>
         <div style="float: right; width: 10%; text-align: right; font-weight: 600; color: #5E81F4; text-transform: uppercase;">
