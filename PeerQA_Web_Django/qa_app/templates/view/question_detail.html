@@ -151,7 +151,28 @@
 {% endblock content %}
 
 {% block right %}
-<div class="move_button" onclick="location.href='/question/form/'">
-  <i class="fas fa-code" style="color: white;"></i><span style="margin-left: 10px;">질문 작성하기</span>
-</div>
+<div id="recom" question_data="{{question.title}}"></div>
+<span id="jsoncontent"></span>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    var url = "http://127.0.0.1:5000/stackoverflow";
+    var questionTitle = $("#recom").attr("question_data");
+
+    $.ajax({
+      type: "GET",
+      url: url,
+      data: {'question_title': questionTitle},
+      dataType: "json",
+      success: function (data) {
+        let response = JSON.stringify(data);
+        alert(response);
+        $("#jsoncontent").html(response);
+      },
+      error: function (req, status, error) {
+        alert("code: "+req.status+"\nmessage: "+req.responseText+"\nerror: "+error);
+      }
+    });
+  });
+</script>
 {% endblock right %}
