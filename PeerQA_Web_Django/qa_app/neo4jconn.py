@@ -36,7 +36,7 @@ class Database2():
             self.cursor = Neo4jConnection(
                 uri='bolt://localhost:7687',
                 user='neo4j',
-                pwd='8752fm$$fm'
+                pwd='12341234'
             )
 
     def __del__(self):
