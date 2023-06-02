@@ -10,35 +10,52 @@
                 neo4j: {
                     serverUrl: "bolt://localhost:7687",
                     serverUser: "neo4j",
-                    serverPassword: "12341234"
+                    serverPassword: "8752fm$$fm"
                 },
+                visConfig: {
+                    nodes: {
+                        mass: 4,
+                        shape: 'neo',
+                    labelHighlightBold: false,
+                    font:{
+                        size: 20,
+                        strokeWidth: 0,
+                        }
+                    },
+                    edges:{
+    arrows: {
+      to: {enabled: true}}}},
                 labels: {
                     User: {
                         label: "uname"
                     },
                     Question: {
                         label: "tag"
-                    },
-                    Comment: {
-                        label: "id"
                     }
-                },
+                    },
+                
                 relationships: {
-                    Ask: {
-                    },
-                    Answer: {
-                    },
-                    Relate: {
+                    Friends: {
+                        value: "strength"
                     }
                 },
-                initialCypher: "MATCH p = (:User{id:2})-[:ASK]->(:Question)<-[:Relate]-(:Comment)<-[:Answer]-(:User{id:3}) RETURN p"
+                initialCypher: "MATCH p = (:User)-[:Friends]->(:User) RETURN p"
             };
 
         viz = new NeoVis.default(config);
         viz.render();
         
     }
+
+String.prototype.format = function() {
+    var formatted = this, i = 0;
+    while (/%s/.test(formatted))
+    	formatted = formatted.replace("%s", arguments[i++]);
+    return formatted;
+}
 </script>
+
+
 
 <div class="container_fluid" style="padding-bottom: 1000px;">
     <div class="card" style="width: 100%; height: 600px; border-radius: 15px; margin-top: 5px;">
@@ -47,15 +64,22 @@
             <style type="text/css">
                 #viz {
                     width: 100%;
-                    height: 500px;
+                    height: 430px;
                 }
             </style>
             <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
             
-            
-            Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
-            <input type="submit" value="Submit" id="reload">
-            <input type="submit" value="Stabilize" id="stabilize">
+            <div class="row mt-4">
+                <div class="col-6">
+                    <label style="font-weight: 600; font-size: large; margin-left: 60px; margin-right: 20px;">질문자: </label>
+                    <input id="cypher1" placeholder="이름을 입력하세요" style="height: 50px; border-radius: 6px; border: 1px solid gainsboro;"></input>
+                </div>
+                <div class="col-6">
+                    <label style="font-weight: 600; font-size: large; margin-right: 20px;">답변자: </label>
+                    <input id="cypher2" placeholder="이름을 입력하세요" style="height: 50px; border-radius: 6px; border: 1px solid gainsboro; margin-right: 40px;"></input>
+                </div>
+            </div>
+            <input type="submit" value="Details" id="reload" class="btn btn-lg" style="background-color: #ECF8F9; margin-top: 20px; margin-left: 50px; margin-right: 50px;"></input>
             
             
             </body>
@@ -63,8 +87,9 @@
             <script>
                 $("#reload").click(function () {
             
-                    var cypher = $("#cypher").val();
-            
+                    var cypher1 = $("#cypher1").val();
+                    var cypher2 = $("#cypher2").val();
+                    var cypher = "MATCH p = (a:User{uname:'%s'})-[:ASK]->(:Question)<-[:Relate]-(:Comment)<-[:Answer]-(b:User{uname:'%s'}) return p".format(cypher1, cypher2);
                     if (cypher.length > 3) {
                         viz.renderWithCypher(cypher);
                     } else {
@@ -74,10 +99,6 @@
                     }
             
                 });
-            
-                $("#stabilize").click(function () {
-                    viz.stabilize();
-                })
             
             </script>
     </div>
