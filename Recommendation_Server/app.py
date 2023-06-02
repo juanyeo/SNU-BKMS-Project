@@ -109,7 +109,7 @@ def so_ranking(request):
     question = request.args["question_title"]
     question = translator.translate(question, dest = 'en').text
     so_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), SO_title_Data, SO_body_Data)
-    ranking_dict = {"www.stackoverflow/questions/"+str(StackOverflow_Data['id'][int(so_ranking[-i-1])]):StackOverflow_Data['title'][int(so_ranking[-i-1])] for i in range(len(so_ranking))} # Not Determined Yet.
+    ranking_dict = {"www.stackoverflow.com/questions/"+str(StackOverflow_Data['id'][int(so_ranking[-i-1])]):StackOverflow_Data['title'][int(so_ranking[-i-1])] for i in range(len(so_ranking))} # Not Determined Yet.
     return ranking_dict
 
 def etl_ranking(request):
