@@ -2,8 +2,84 @@
 {% load static %}
 
 {% block content %}
+<script type="text/javascript">
+    var viz;
+    function draw() {
+        var config = {
+                containerId: "viz",
+                neo4j: {
+                    serverUrl: "bolt://localhost:7687",
+                    serverUser: "neo4j",
+                    serverPassword: "8752fm$$fm"
+                },
+                labels: {
+                    User: {
+                        label: "uname"
+                    },
+                    Question: {
+                        label: "tag"
+                    },
+                    Comment: {
+                        label: "id"
+                    }
+                },
+                relationships: {
+                    Ask: {
+                    },
+                    Answer: {
+                    },
+                    Relate: {
+                    }
+                },
+                initialCypher: "MATCH p = (:User{id:2})-[:ASK]->(:Question)<-[:Relate]-(:Comment)<-[:Answer]-(:User{id:3}) RETURN p"
+            };
+
+        viz = new NeoVis.default(config);
+        viz.render();
+        
+    }
+</script>
+
 <div class="container_fluid" style="padding-bottom: 1000px;">
     <div class="card" style="width: 100%; height: 600px; border-radius: 15px; margin-top: 5px;">
+        <body onload="draw()">
+            <div id="viz"></div>
+            <style type="text/css">
+                #viz {
+                    width: 100%;
+                    height: 500px;
+                }
+            </style>
+            <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+            
+            
+            Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
+            <input type="submit" value="Submit" id="reload">
+            <input type="submit" value="Stabilize" id="stabilize">
+            
+            
+            </body>
+            <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+            <script>
+                $("#reload").click(function () {
+            
+                    var cypher = $("#cypher").val();
+            
+                    if (cypher.length > 3) {
+                        viz.renderWithCypher(cypher);
+                    } else {
+                        console.log("reload");
+                        viz.reload();
+            
+                    }
+            
+                });
+            
+                $("#stabilize").click(function () {
+                    viz.stabilize();
+                })
+            
+            </script>
     </div>
     <div class="card" style="width: 49%; height: 400px; border-radius: 15px; margin-top: 25px; float: left">
     </div>

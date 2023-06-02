@@ -10,6 +10,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from .models import User
 from django.db.models import OuterRef, Subquery, Count
 from .constants import *
+from .neo4jconn import *
 
 # Create your views here.
 def signout(request):
@@ -270,6 +271,8 @@ def mypage(request):
     
 def olap(request):
     if request.user.is_authenticated:
+        database2 = Database2()
+        database2.update()
         return render(request, "view/olap.html")
     else:
         return redirect("/question/signin/")
