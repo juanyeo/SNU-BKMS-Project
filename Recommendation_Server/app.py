@@ -126,7 +126,7 @@ def merged_dict(dict1, dict2):
     for key, val in dict2.items():
         merged[key] = val
     
-    merged = list(merged)
+    merged = list(merged.items())
     random.shuffle(merged)
     merged = dict(merged)
     return merged    
