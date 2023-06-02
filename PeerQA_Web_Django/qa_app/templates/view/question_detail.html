@@ -172,15 +172,15 @@
         var splitted_list = response.split(",");
         splitted_list.sort(() => Math.random() - 0.5);
 
-        let stack_tag_start = `style="width: 100%; background-color: white; border-top-left-radius: 16px; border-bottom-left-radius: 16px; padding: 12px; margin-bottom: 20px;">
+        let stack_tag_start = `style="width: 100%; background-color: white; border-top-left-radius: 16px; border-bottom-left-radius: 16px; padding: 12px; margin-bottom: 15px;">
             <span style="color: orange; font-size: small;"><i class="fab fa-stack-overflow" style="color:chocolate"></i>  Stackoverflow 추천</span>
             <p style="font-weight: 600; margin-top: 8px; margin-bottom: 8px;">`;
-        let stack_tag_middle = `</p><span style="color: blue; font-size: small;">`;
+        let stack_tag_middle = `</p><span style="color: #A0A0A0; font-size: small;">`;
         let stack_tag_end = `</span></div>`;
-        let board_tag_start = `style="width: 100%; background-color: white; border-top-left-radius: 16px; border-bottom-left-radius: 16px; padding: 12px; margin-bottom: 20px;">
+        let board_tag_start = `style="width: 100%; background-color: white; border-top-left-radius: 16px; border-bottom-left-radius: 16px; padding: 12px; margin-bottom: 15px;">
             <span style="color: green; font-size: small;"><i class="fas fa-university" style="color:forestgreen"></i>  QA 게시글 추천</span>
             <p style="font-weight: 600; margin-top: 8px; margin-bottom: 8px;">`;
-        let board_tag_middle = `</p><span style="color: blue; font-size: small;">`;
+        let board_tag_middle = `</p><span style="color: #A0A0A0; font-size: small;">`;
         let board_tag_end = `</span></div>`;
 
         var html_result = "";
@@ -188,10 +188,10 @@
             let tuple = splitted_list[i].split(":");
             if (tuple[0][0] == "w") {
                 // Stackoverflow
-                html_result += "<div onclick=\"location.href='https://"+tuple[0]+"'\" " + stack_tag_start + tuple[1] + stack_tag_middle + tuple[0] + stack_tag_end;
+                html_result += "<div onclick=\"location.href='https://"+tuple[0]+"'\" " + stack_tag_start + tuple[1] + stack_tag_middle + "Stackoverflow 바로가기 <i class='far fa-link'></i>" + stack_tag_end;
             } else {
                 // 게시글 추천
-                html_result += "<div onclick=\"location.href='"+tuple[0]+"'\" " + board_tag_start + tuple[1] + board_tag_middle + "눌러서 이동 ->" + board_tag_end;
+                html_result += "<div onclick=\"location.href='"+tuple[0]+"'\" " + board_tag_start + tuple[1] + board_tag_middle + "게시글 바로가기 <i class='fas fa-angle-double-right'></i>" + board_tag_end;
             }
         }
 
