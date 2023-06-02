@@ -18,7 +18,7 @@ def tag_ranking():
     count_list = list(df['count'])
     tags = {str(i):tag_list[i] for i in range(len(tag_list))}
     counts = {str(i):count_list[i] for i in range(len(count_list))}
-    return {"tags":tags, "counts":counts}
+    return {"tags":tags, "counts":counts, "subject": 4}
 
 
 def get_dataframe(given_query):

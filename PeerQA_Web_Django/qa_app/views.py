@@ -92,11 +92,11 @@ def question_form(request):
             if request.session["subject"] == 1:
                 form = QuestionForm()
                 return render(request, "view/question_form.html", {"form": form,
-                                                                   "lectures": lectures, "user": request.user, "tags": tag1})
+                                                                   "lectures": lectures, "user": request.user, "tags": tag1, "subject": 1})
             else:
                 form = QuestionForm()
                 return render(request, "view/question_form.html", {"form": form,
-                                                                   "lectures": lectures2, "user": request.user, "tags": tag2})
+                                                                   "lectures": lectures2, "user": request.user, "tags": tag2, "subject": 2})
         elif request.method == "POST":
             form = QuestionForm(request.POST)
             if form.is_valid():
@@ -118,12 +118,13 @@ def question_form(request):
 def question_detail(request, id):
     if request.user.is_authenticated:
         if request.method == "GET":
+            subject = request.session["subject"]
             question = Question.objects.get(pk=id)
             comments = Comment.objects.filter(question=id)
             count = comments.count()
             file_name = "/Page" + str(question.lecture_slide) + ".jpg"
             src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
-            context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments, "count": count}
+            context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments, "count": count, "subject": subject}
             request.session["qid"] = id
 
             return render(request, "view/question_detail.html", context)
@@ -266,7 +267,7 @@ def mypage(request):
         accepted = request.user.admin_accepted + request.user.owner_accepted
         scraps = Scrap.objects.filter(user=request.user)
         scraps = [scraps.question for scraps in scraps]
-        return render(request, "view/mypage.html", {"my_questions": my_questions, "user": request.user, "accepted": accepted, "scraps": scraps})
+        return render(request, "view/mypage.html", {"my_questions": my_questions, "user": request.user, "accepted": accepted, "scraps": scraps, "subject": 3})
     else:
         return redirect("/question/signin/")
     
