@@ -156,7 +156,7 @@
 <script src="{% static 'js/jquery.js' %}"></script>
 <script>
   $(document).ready(function() {
-    var url = "http://127.0.0.1:5000/stackoverflow";
+    var url = "http://127.0.0.1:5000/mixed";
     var questionTitle = $("#recom").attr("question_data");
 
     $.ajax({
@@ -165,9 +165,23 @@
       data: {'question_title': questionTitle},
       dataType: "json",
       success: function (data) {
-        let response = JSON.stringify(data);
-        alert(response);
-        $("#jsoncontent").html(response);
+        var response = JSON.stringify(data);
+        response = response.replace(/"/gi, "");
+        response = response.substring(1, response.length-1);
+
+        var splitted_list = response.split(",");
+        let tag_start = `<div style="width: 100%; background-color: white; border-top-left-radius: 16px; border-bottom-left-radius: 16px; padding: 12px; margin-bottom: 20px;">
+            <span style="color: orange; font-size: small;"><i class="fab fa-stack-overflow" style="color:chocolate"></i>  Stackoverflow 추천</span>
+            <p style="font-weight: 600; margin-top: 8px; margin-bottom: 8px;">`;
+        let tag_middle = `</p><span style="color: blue; font-size: small;">`;
+        let tag_end = `</span></div>`;
+        var html_result = "";
+        for(let i = 0; i < splitted_list.length; i++) {
+            let tuple = splitted_list[i].split(":");
+            html_result += tag_start + tuple[1] + tag_middle + tuple[0] + tag_end;
+        }
+
+        $("#jsoncontent").html(html_result);
       },
       error: function (req, status, error) {
         alert("code: "+req.status+"\nmessage: "+req.responseText+"\nerror: "+error);
