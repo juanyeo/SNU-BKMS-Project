@@ -17,7 +17,7 @@ class Mips():
         self.m = self.params['m']
         self.rank_size = params['ranking_size']
         
-    def search(self, query, titleData, bodyData, is_normalized = False):
+    def search(self, text, query, titleData, bodyData, is_normalized = False):
         """
         Return the rankings of Data indices
         
@@ -35,10 +35,10 @@ class Mips():
         hash_mapped = self.hash_functions(Q) # shape: (1, number of hash function) -> hash 함수 통하여 정수형 벡터로 변환
         title_collision = torch.sum(torch.where((hash_mapped - titleData)==0, True, False), 1).reshape(-1)
         body_collision = torch.sum(torch.where((hash_mapped - bodyData)==0, True, False), 1).reshape(-1)
-        _, indices = torch.sort(title_collision + body_collision)
+        sorted, indices = torch.sort(title_collision + 3*body_collision)
         ranking = indices[-self.rank_size:]
         
-        return ranking
+        return ranking, sorted[-self.rank_size:]
         
     
     def expand_q(self, Q):    
@@ -74,9 +74,9 @@ class HashFt():
         해시함수 개수만큼의 결과값 중 그 수가 가장 많이 겹치는 데이터들을 대상으로 랭킹을 매겨 추천.
         """
         self.A = torch.randn(self.hash_num, self.emb_dim + self.m)
-        self.B = torch.randint(low=0, high = self.r, size = (1, self.hash_num))
+        self.B = torch.rand(size = (1, self.hash_num)) * self.r
         
-        def hashft(Data, A = self.A, B = self.B, r = self.r):
+        def hashft(Data):
             """ 해시함수
 
             Args:
@@ -89,7 +89,7 @@ class HashFt():
                 _type_: _description_ shape=(Data_size, hash_num)
             """
 
-            return torch.floor((Data @ A.T + B)/r) 
+            return torch.floor((Data @ self.A.T + self.B)/self.r) 
         
         return hashft
     
@@ -109,7 +109,7 @@ class Hash_Table():
                 with open(self.parmas['hash_table_path'], 'rb') as f:
                     self.table = pickle.load(f)
             except:
-                print("cannot open saved hash_table")
+                print("we done't have saved hash_table.")
                 nothing = True
         else:
             self.table = table
@@ -134,7 +134,7 @@ class Hash_Table():
         """
         max_vecnorm = torch.max(torch.norm(self.table, dim = 1))
         self.table = self.table / max_vecnorm
-        added = torch.Tensor([[0.5-torch.norm(v)**(2*i) for i in range(1, self.m+1)] for v in self.table])
+        added = torch.Tensor([[0.5-torch.norm(v)**(2**i) for i in range(1, self.m+1)] for v in self.table])
         
         expanded = torch.concat([self.table, added], dim = 1)
         
@@ -143,3 +143,5 @@ class Hash_Table():
     def emb2hs(self):
         return self.hash_function(self.expand())
         
+def jacarrd_sim():
+    return

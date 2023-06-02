@@ -108,14 +108,14 @@ def mixed_result():
 def so_ranking(request):
     question = request.args["question_title"]
     question = translator.translate(question, dest = 'en').text
-    so_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), SO_title_Data, SO_body_Data)
+    so_ranking = search_engine.search(question, model.encode([question], convert_to_tensor = True), SO_title_Data, SO_body_Data)
     ranking_dict = {"www.stackoverflow.com/questions/"+str(StackOverflow_Data['id'][int(so_ranking[-i-1])]):StackOverflow_Data['title'][int(so_ranking[-i-1])] for i in range(len(so_ranking))} # Not Determined Yet.
     return ranking_dict
 
 def etl_ranking(request):
     question = request.args["question_title"]
     question = translator.translate(question, dest = 'en').text
-    etl_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), etl_title_Data, etl_body_Data)
+    etl_ranking = search_engine.search(question, model.encode([question], convert_to_tensor = True), etl_title_Data, etl_body_Data)
     ranking_dict = {"/detail/"+str(etl_Data['id'][int(etl_ranking[-i-1])]):etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
     return ranking_dict
 

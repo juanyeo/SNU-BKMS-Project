@@ -1,12 +1,12 @@
 
 # model parameter
-embedding_size: 384 # fix as 384!
+embedding_size: 1024 # fix as 384!
 
 # Mips parameters
-hash_num : 10000
-m: 100
+hash_num : 1000
+m: 30
 ranking_size : 5
-r: 7
+r: 15
 
 hash_ft_path: 'gen_ids/hash_ft.pickle'
 hash_table_path: 'gen_ids/hash_table.pickle'
