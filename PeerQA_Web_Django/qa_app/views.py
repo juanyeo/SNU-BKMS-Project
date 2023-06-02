@@ -124,7 +124,7 @@ def question_detail(request, id):
             count = comments.count()
             file_name = "/Page" + str(question.lecture_slide) + ".jpg"
             src_text = static("lecture/" + lecture_dir[question.lecture_name] + file_name)
-            context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments, "count": count, "subject": subject}
+            context = {"question": question, "src_text": src_text, "user": request.user, "comment_list": comments, "count": count, "subject": question.subject}
             request.session["qid"] = id
 
             return render(request, "view/question_detail.html", context)
