@@ -1,4 +1,5 @@
 import os
+import random
 import torch
 import torch.nn as nn
 import yaml
@@ -99,11 +100,8 @@ def mixed_result():
         
         so_rank = so_ranking(request)
         etl_rank = etl_ranking(request)
-        ranking_dict = {}
-        for key, val in etl_rank.items():
-            ranking_dict[key] = val
-        for key, val in so_rank.items():
-            ranking_dict[key] = val
+        
+        ranking_dict = merged_dict(so_rank, etl_rank)
             
         return jsonify(ranking_dict)
 
@@ -120,6 +118,18 @@ def etl_ranking(request):
     etl_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), etl_title_Data, etl_body_Data)
     ranking_dict = {"/detail/"+str(etl_Data['id'][int(etl_ranking[-i-1])]):etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
     return ranking_dict
+
+def merged_dict(dict1, dict2):
+    merged = {}
+    for key, val in dict1.items():
+        merged[key] = val
+    for key, val in dict2.items():
+        merged[key] = val
+    
+    merged = list(merged)
+    random.shuffle(merged)
+    merged = dict(merged)
+    return merged    
 
 if __name__ == '__main__':
     app.run(debug=True)
