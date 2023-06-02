@@ -84,24 +84,42 @@ def Question():
 @cross_origin()
 def so_result():
     if request.method == 'GET':
-
-        question = request.args["question_title"]
-        question = translator.translate(question, dest = 'en').text
-        SO_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), SO_title_Data, SO_body_Data)
-        ranking_dict = {'www.stackoverflow.com/questions/' + str(StackOverflow_Data.iloc[int(SO_ranking[-i-1]), 1]): StackOverflow_Data['title'][int(SO_ranking[-i-1])] for i in range(len(SO_ranking))}
-        return jsonify(ranking_dict)
+        return jsonify(so_ranking(request))
 
 @app.route('/etl',methods = ['POST', 'GET']) ## ETL data search engine
 @cross_origin()
 def etl_result():
     if request.method == 'GET':
+        return jsonify(etl_ranking(request))
 
-        question = request.args["question_title"]
-        question = translator.translate(question, dest = 'en').text
-        etl_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), etl_title_Data, etl_body_Data)
-        ranking_dict = {str(etl_Data['id'][int(etl_ranking[-i-1])]):etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
+@app.route('/mixed',methods = ['POST', 'GET']) ## MIXED data search engine
+@cross_origin()
+def mixed_result():
+    if request.method == 'GET':
+        
+        so_rank = so_ranking(request)
+        etl_rank = etl_ranking(request)
+        ranking_dict = {}
+        for key, val in etl_rank.items():
+            ranking_dict[key] = val
+        for key, val in so_rank.items():
+            ranking_dict[key] = val
+            
         return jsonify(ranking_dict)
 
+def so_ranking(request):
+    question = request.args["question_title"]
+    question = translator.translate(question, dest = 'en').text
+    so_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), SO_title_Data, SO_body_Data)
+    ranking_dict = {str(StackOverflow_Data['id'][int(so_ranking[-i-1])]):StackOverflow_Data['title'][int(so_ranking[-i-1])] for i in range(len(so_ranking))} # Not Determined Yet.
+    return ranking_dict
+
+def etl_ranking(request):
+    question = request.args["question_title"]
+    question = translator.translate(question, dest = 'en').text
+    etl_ranking = search_engine.search(model.encode([question], convert_to_tensor=True), etl_title_Data, etl_body_Data)
+    ranking_dict = {str(etl_Data['id'][int(etl_ranking[-i-1])]):etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
+    return ranking_dict
 
 if __name__ == '__main__':
     app.run(debug=True)
