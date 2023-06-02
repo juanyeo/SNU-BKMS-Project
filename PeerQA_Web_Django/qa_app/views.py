@@ -27,6 +27,7 @@ def signout(request):
 def question_list(request):
     if request.user.is_authenticated:
         request.session["subject"] = 1
+        tag = None
         if request.method == "GET":
             questions = Question.objects.filter(subject=1).annotate(
                 count=Subquery(
@@ -37,6 +38,7 @@ def question_list(request):
                 )
             )
         elif request.method == "POST":
+            tag = request.POST['tag']
             questions = Question.objects.filter(subject=1).filter(tag=request.POST['tag']).annotate(
                 count=Subquery(
                     Comment.objects.filter(question=OuterRef('id'))
@@ -48,7 +50,7 @@ def question_list(request):
         for i in range(len(questions)):
             if questions[i].count == None: questions[i].count = 0
             questions[i].count = "{:02d}".format(questions[i].count)
-        context = {"question_list": questions, "user": request.user, "subject": 1}
+        context = {"question_list": questions, "user": request.user, "subject": 1, "tag_selected": tag}
 
         return render(request, "view/question_list.html", context)
 
@@ -58,6 +60,7 @@ def question_list(request):
 def question_list2(request):
     if request.user.is_authenticated:
         request.session["subject"] = 2
+        tag = None
         if request.method == "GET":
             questions = Question.objects.filter(subject=2).annotate(
                 count=Subquery(
@@ -68,6 +71,7 @@ def question_list2(request):
                 )
             )
         elif request.method == "POST":
+            tag = request.POST['tag']
             questions = Question.objects.filter(subject=2).filter(tag=request.POST['tag']).annotate(
                 count=Subquery(
                     Comment.objects.filter(question=OuterRef('id'))
@@ -79,7 +83,7 @@ def question_list2(request):
         for i in range(len(questions)):
             if questions[i].count == None: questions[i].count = 0
             questions[i].count = "{:02d}".format(questions[i].count)
-        context = {"question_list": questions, "user": request.user, "subject": 2}
+        context = {"question_list": questions, "user": request.user, "subject": 2, "tag_selected": tag}
 
         return render(request, "view/question_list.html", context)
     else:

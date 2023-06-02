@@ -18,28 +18,48 @@
 <div style = "display: flex; margin-left: 60px;">
     <form action="" method="post">
         {% csrf_token %}
-        <input type="hidden" name="tag" value="DB Design ">
-        <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">DB Design </button>
+        <input type="hidden" name="tag" value="DB Design">
+        {% if tag_selected == "DB Design" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">DB Design</button>
+        {% else %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">DB Design</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Query">
+        {% if tag_selected == "Query" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Query</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Query</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Storage">
+        {% if tag_selected == "Storage" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Storage</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Storage</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Indexing">
+        {% if tag_selected == "Indexing" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Indexing</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Indexing</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="PostgreSQL">
+        {% if tag_selected == "PostgreSQL" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">PostgreSQL</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">PostgreSQL</button>
+        {% endif %}
     </form>
     <!-- <form action="" method="post">
         {% csrf_token %}
@@ -54,12 +74,20 @@
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="과제1">
+        {% if tag_selected == "과제1" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제1</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제1</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="과제2">
+        {% if tag_selected == "과제2" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제2</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제2</button>
+        {% endif %}
     </form>
 </div>
 {% else %}
@@ -67,17 +95,29 @@
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Neo4j">
+        {% if tag_selected == "Neo4j" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Neo4j</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Neo4j</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Query Processing">
+        {% if tag_selected == "Query Processing" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Query Processing</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Query Processing</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Transaction">
+        {% if tag_selected == "Transaction" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Transaction</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Transaction</button>
+        {% endif %}
     </form>
     <!-- <form action="" method="post">
         {% csrf_token %}
@@ -87,17 +127,29 @@
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="Logging">
+        {% if tag_selected == "Logging" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Logging</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">Logging</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="과제3">
+        {% if tag_selected == "과제3" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제3</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제3</button>
+        {% endif %}
     </form>
     <form action="" method="post">
         {% csrf_token %}
         <input type="hidden" name="tag" value="과제4">
+        {% if tag_selected == "과제4" %}
+        <button style="padding: 5px 12px; font-size: 16px;  background-color: #78d; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제4</button>
+        {% else %}
         <button style="padding: 5px 12px; font-size: 16px;  background-color: white; float: right; border: none; margin-right:12px; font-weight: 600; border-radius: 10px;">과제4</button>
+        {% endif %}
     </form>
 </div>
 {% endif %}
