@@ -1,6 +1,6 @@
 
 # model parameter
-embedding_size: 1024 # fix as 384!
+embedding_size: 384 # fix as 384!
 
 # Mips parameters
 hash_num : 1000
