@@ -86,7 +86,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
 def Question():
-    
     return render_template('Question.html')
 
 @app.route('/stackoverflow',methods = ['POST', 'GET']) ## stackoverflow data search engine.
@@ -115,15 +114,3 @@ def mixed_result():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-    """
-    시나리오. 데모영상의 구체적인 시나리오.
-    cherry pick을 보여주기. 어떤 데이터가 가장 이쁜가.
-    
-    
-    데이터 가져오는 플라스크 서버 
-    
-    output을 json 형식으로 보내기
-    
-    """
-    
