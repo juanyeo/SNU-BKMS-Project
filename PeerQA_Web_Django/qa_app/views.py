@@ -111,6 +111,7 @@ def question_form(request):
                 User.objects.filter(pk=request.user.id).update(question_num=qn)
                 subject = request.session["subject"]
                 post.subject = subject
+                # post.id = 210     # 만약 210이 안 되면 더 큰 수를 해 볼것.
                 post.save()
             if request.session["subject"] == 1:
                 return redirect("/question/")
@@ -142,6 +143,7 @@ def question_detail(request, id):
                 User.objects.filter(pk=request.user.id).update(comment_num=cn)
                 post.owner_accepted = 0
                 post.admin_accepted = 0
+                # post.id = 210
                 post.save()
             qid = request.session["qid"]
             return redirect("question_detail", id=qid)
