@@ -15,7 +15,7 @@ class Mips():
         self.hash_functions = hash_functions
         self.hashNum = self.params['hash_num']
         self.m = self.params['m']
-        self.rank_size = params['ranking_size']
+        self.emb_rank_size = params['emb_ranking_size']
         
     def search(self, text, query, titleData, bodyData, is_normalized = False):
         """
@@ -29,16 +29,16 @@ class Mips():
                 
         returns:
             충돌이 가장 많이 일어난(내적값이 가장 크다고 판단된) 데이터 중
-            self.rank_size 개수만큼의 데이터에 대한 인덱스를 반환함.
+            self.emb_rank_size 개수만큼의 데이터에 대한 인덱스를 반환함.
         """
         Q = self.expand_q(query) # shape: (1, embedding_dim + self.m)
         hash_mapped = self.hash_functions(Q) # shape: (1, number of hash function) -> hash 함수 통하여 정수형 벡터로 변환
         title_collision = torch.sum(torch.where((hash_mapped - titleData)==0, True, False), 1).reshape(-1)
         body_collision = torch.sum(torch.where((hash_mapped - bodyData)==0, True, False), 1).reshape(-1)
         sorted, indices = torch.sort(title_collision + 3*body_collision)
-        ranking = indices[-self.rank_size:]
+        ranking = indices[-self.emb_rank_size:]
         
-        return ranking, sorted[-self.rank_size:]
+        return ranking, sorted[-self.emb_rank_size:]
         
     
     def expand_q(self, Q):    

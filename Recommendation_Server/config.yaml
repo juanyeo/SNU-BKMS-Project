@@ -5,6 +5,7 @@ embedding_size: 384 # fix as 384!
 # Mips parameters
 hash_num : 1000
 m: 30
+emb_ranking_size : 50
 ranking_size : 5
 r: 15
 

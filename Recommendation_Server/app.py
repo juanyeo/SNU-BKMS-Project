@@ -6,8 +6,9 @@ import yaml
 import pandas as pd
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import googletrans
-from mips_ALSH import Mips, HashFt, Hash_Table
 from flask_cors import CORS, cross_origin
+from mips_ALSH import Mips, HashFt, Hash_Table
+from utils import _ranking, ranking_postprocess
 
 config_path = 'config.yaml'
 hashft_path = 'gen_ids/hash_ft.pickle'
@@ -85,39 +86,26 @@ def Question():
 @cross_origin()
 def so_result():
     if request.method == 'GET':
-        return jsonify(so_ranking(request))
+        return jsonify(_ranking(request, search_engine, StackOverflow_Data, SO_title_Data, SO_body_Data, "StackOverFlow"))
 
 @app.route('/etl',methods = ['POST', 'GET']) ## ETL data search engine
 @cross_origin()
 def etl_result():
     if request.method == 'GET':
-        return jsonify(etl_ranking(request))
+        return jsonify(_ranking(request, search_engine, etl_Data, etl_title_Data, etl_body_Data, 'ETL'))
 
 @app.route('/mixed',methods = ['POST', 'GET']) ## MIXED data search engine
 @cross_origin()
 def mixed_result():
     if request.method == 'GET':
         
-        so_rank = so_ranking(request)
-        etl_rank = etl_ranking(request)
+        so_rank = _ranking(request, search_engine, StackOverflow_Data, SO_title_Data, SO_body_Data, 'StackOverFlow')
+        etl_rank = _ranking(request, search_engine, etl_Data, etl_title_Data, etl_body_Data, 'ETL')
         
         ranking_dict = merged_dict(so_rank, etl_rank)
             
         return jsonify(ranking_dict)
 
-def so_ranking(request):
-    question = request.args["question_title"]
-    question = translator.translate(question, dest = 'en').text
-    so_ranking = search_engine.search(question, model.encode([question], convert_to_tensor = True), SO_title_Data, SO_body_Data)
-    ranking_dict = {"www.stackoverflow.com/questions/"+str(StackOverflow_Data['id'][int(so_ranking[-i-1])]):StackOverflow_Data['title'][int(so_ranking[-i-1])] for i in range(len(so_ranking))} # Not Determined Yet.
-    return ranking_dict
-
-def etl_ranking(request):
-    question = request.args["question_title"]
-    question = translator.translate(question, dest = 'en').text
-    etl_ranking = search_engine.search(question, model.encode([question], convert_to_tensor = True), etl_title_Data, etl_body_Data)
-    ranking_dict = {"/detail/"+str(etl_Data['id'][int(etl_ranking[-i-1])]):etl_Data['title'][int(etl_ranking[-i-1])] for i in range(len(etl_ranking))} # Not Determined Yet.
-    return ranking_dict
 
 def merged_dict(dict1, dict2):
     merged = {}
