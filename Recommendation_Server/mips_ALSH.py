@@ -109,14 +109,12 @@ class Hash_Table():
                 with open(self.parmas['hash_table_path'], 'rb') as f:
                     self.table = pickle.load(f)
             except:
-                print("we done't have saved hash_table.")
+                print("we don't have saved hash_table.")
                 nothing = True
         else:
             self.table = table
         if not self.hashness_check():
-            # print("Current data is not completely preprocessed. Wait for preprocessing.")
             self.table = self.emb2hs()
-            print("Preprocessing Done.")
     def hashness_check(self):
         if type(self.table) != list:
             return False
