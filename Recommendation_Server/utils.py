@@ -1,4 +1,4 @@
-import os, yaml, pickle
+import os, yaml, pickle, random
 import torch
 import googletrans
 from mips_ALSH import Mips, HashFt, Hash_Table
@@ -71,12 +71,21 @@ def ranking_postprocess(question , ranking, final_num):
     
     
 def jaccard_sim(textA, textB)-> float:
-    
     tA, tB = set(textA.lower().split()), set(textB.lower().split())
-    
     if len(tA) == len(tB) == 0:
         return 0
-    
     return len(tA & tB) / len(tA | tB)
     
+
+
+def merged_dict(dict1, dict2):
+    merged = {}
+    for key, val in dict1.items():
+        merged[key] = val
+    for key, val in dict2.items():
+        merged[key] = val
     
+    merged = list(merged.items())
+    random.shuffle(merged)
+    merged = dict(merged)
+    return merged    

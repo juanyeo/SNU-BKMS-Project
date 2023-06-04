@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 import googletrans
 from flask_cors import CORS, cross_origin
 from mips_ALSH import Mips, HashFt, Hash_Table
-from utils import _ranking, ranking_postprocess
+from utils import _ranking, merged_dict
 
 config_path = 'config.yaml'
 hashft_path = 'gen_ids/hash_ft.pickle'
@@ -105,19 +105,6 @@ def mixed_result():
         ranking_dict = merged_dict(so_rank, etl_rank)
             
         return jsonify(ranking_dict)
-
-
-def merged_dict(dict1, dict2):
-    merged = {}
-    for key, val in dict1.items():
-        merged[key] = val
-    for key, val in dict2.items():
-        merged[key] = val
-    
-    merged = list(merged.items())
-    random.shuffle(merged)
-    merged = dict(merged)
-    return merged    
 
 if __name__ == '__main__':
     app.run(debug=True)
