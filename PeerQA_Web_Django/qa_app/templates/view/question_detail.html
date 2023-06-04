@@ -126,7 +126,7 @@
     <form action="{% url 'comment_admin_like' comment.id %}" method="post">
         {% csrf_token %}
         <!--                            <button type="submit" class="btn btn-dark btn-sm" style="margin-right: 20px; background: #5E81F4; border: #5E81F4;">질문 채택</button>-->
-        <button type="submit" class="btn btn-dark" style="margin-right: 20px; background-color: #21C197; border-color: #21C197; color: #fff; padding: 3px 8px; font-size: 10px;">질문자 채택</button>
+        <button type="submit" class="btn btn-dark" style="margin-right: 20px; background-color: #21C197; border-color: #21C197; color: #fff; padding: 3px 8px; font-size: 10px;">교수자 채택</button>
     </form>
     {% endif %}</div>
     {% endfor %}
