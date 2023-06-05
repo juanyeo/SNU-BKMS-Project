@@ -32,7 +32,7 @@ print("Sentence BERT loading complete.")
 # --------------- Data Loading part -----------------
 
 ## hash functions
-if hashft_path in os.listdir(os.path.join(os.getcwd(), 'gen_ids')):
+if 'gen_ids' in os.listdir() and hashft_path in os.listdir(os.path.join(os.getcwd(), 'gen_ids')):
     print("Previous hash funtion exists.. Loading hash function", end = '... ')
     with open(os.path.join('gen_ids',hashft_path), 'r') as f:
         hashft = yaml.load(f, Loader = yaml.FullLoader)
