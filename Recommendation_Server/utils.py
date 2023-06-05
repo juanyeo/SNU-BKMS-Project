@@ -17,17 +17,17 @@ model.eval()
 
 
 def _ranking(request, search_engine, Data, title_table, body_table, ranking_mode):
-    question = request.args["question_title"]
-    question = translator.translate(question, dest = 'en').text
+    original_question = request.args["question_title"]
+    question = translator.translate(original_question, dest = 'en').text
     ranking, _ = search_engine.search(question, model.encode([question], convert_to_tensor = True), title_table, body_table)
     
     if ranking_mode == 'StackOverFlow':
         ranking_dict = {"www.stackoverflow.com/questions/"+str(Data['id'][int(ranking[-i-1])]):Data['title'][int(ranking[-i-1])] for i in range(len(ranking))} 
     elif ranking_mode == 'ETL':
-        ranking_dict = {"/detail/"+str(Data['id'][int(ranking[-i-1])]):Data['title'][int(ranking[-i-1])] for i in range(len(ranking))}         
+        ranking_dict = {"/question/detail/"+str(Data['id'][int(ranking[-i-1])]):Data['title'][int(ranking[-i-1])] for i in range(len(ranking))}         
     else:
         raise "Invalid Data mode. Mode must be one of : 'StackOverFlow' or 'ETL'"
-    return ranking_postprocess(question, ranking_dict, params['ranking_size'])
+    return ranking_postprocess(original_question, ranking_dict, params['ranking_size'])
 
 def gen_DataTable(embedding, fileLoc, hashft):
     if fileLoc in os.listdir():
@@ -62,11 +62,13 @@ def gen_embedding(data, fileLoc):
     
 def ranking_postprocess(question , ranking, final_num):
     ranking_list = list(ranking.items())
+    new_ranking_list = []
     for i in range(len(ranking_list)):
-        ranking_list[i] = (jaccard_sim(question, ranking_list[i][1]), i, ranking_list[i][0], ranking_list[i][1])
-    ranking_list.sort(reverse=True)
-    ranking_list = ranking_list[:final_num]
-    ranking = {r[2]:r[3] for r in ranking_list}
+        if question.lower() != ranking_list[i][1].lower():
+            new_ranking_list.append((jaccard_sim(question, ranking_list[i][1]), i, ranking_list[i][0], ranking_list[i][1]))
+    new_ranking_list.sort(reverse=True)
+    new_ranking_list = new_ranking_list[:final_num]
+    ranking = dict(set({r[2]:r[3] for r in new_ranking_list}.items()))
     return ranking
     
     
